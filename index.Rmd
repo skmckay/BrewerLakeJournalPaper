@@ -1,10 +1,10 @@
 ---
-title: 'Visualizing Outcomes of the Brewer Lake Watershed Study'
-author: "S. Kyle McKay"
-date: "July 2025"
+title: 'Aligning multiple methods to inform planning decisions in the Brewer Lake Watershed, Arkansas, USA'
+author: "Michael Long, Julianna Hunter, Julia Ruff, Maya Burns, Drew Ackerman, and S. Kyle McKay"
+date: "December 2025"
 output:
   word_document:
-    toc: yes
+    toc: no
     toc_depth: '5'
   html_document:
     toc: yes
@@ -27,292 +27,506 @@ rm(list=ls(all=TRUE))
 #Load R package containing color palette
 library(viridis)
 
-#Load R package containing rose diagram using base R
-#library(CircStats)
-
 #Load R package containing lots of plotting commands
 library(ggplot2)
-library(forcats)
-library(gridExtra)
+#library(forcats)
+#library(gridExtra)
 ```
 
-# **Report Purpose**
+# **Author Notes**
 
-The U.S. Army Corps of Engineers (USACE) and the Conway Corporation have initiated a watershed assessment study for the Brewer Lake watershed in central Arkansas. Black & Veatch and Woolpert are jointly conducting the technical analyses for this study, which involves compiling diverse lines of evidence related to watershed condition based on analyses such as watershed modeling, ecological data compilation, and geospatial analysis. However, these analyses produce outcomes that are challenging to compare and trade-off due to inconsistent units (e.g., streamflow metrics vs. nutrient load vs. probability of harmful algal blooms) and different baseline conditions across processes (e.g., "poor" phosphorous loading vs. "good" fish diversity). An approach is needed for synthesizing these findings into a succinct format to communicate the overarching status of the watershed. This report outlines potential methods for synthesizing findings into a series of tables and/or figures for effective communication with the USACE, Conway Corporation, and other stakeholders.
+This document is a working draft of a journal paper summarizing the Brewer Lake watershed study. A few notes:  
+
+- *Authorship*: The authorship list is simply a first volley based on contributions to the USACE report. Team members can be added as needed, and we need to discuss the relative order of authors.  
+- *Potential audience*: Largely focused on applied water science community and practitioners developing watershed management plans. Secondary audience is government entities funding watershed assessments. Probably best reached through an open access journal.  
+- *Potential outlets* (in rough submission order): [Water](https://www.mdpi.com/journal/water) (a lower bar but fast turn-around),  [Journal of the American Water Resources Association](https://onlinelibrary.wiley.com/journal/17521688) (incredibly slow but lots of watershed assessment focus), [PLOS Water](https://journals.plos.org/water/) (probably more hypothesis-driven that our analysis)  
+- *What is this document*: This outline is structured where each text block is envisioned as roughly a paragraph of content. Current text will be rewritten and is simply intended to be a placeholder for ideas. 
 
 
-Many examples of these types of synthesis outcomes exist, some of which include:  
+# **Abstract**
 
-- **Report-card-style syntheses** with many factors rolling into a single data dashboard or summary index. Some of the more prominent examples include [Puget Sound's vital signs project](https://vitalsigns.pugetsoundinfo.wa.gov/), the [Mississippi River watershed report card](https://americaswatershed.org/reportcard/), and the [Chesapeake Bay's EcoHealth Report Card](https://ecoreportcard.org/report-cards/chesapeake-bay/).  
-- **Development of condition indices** that unite multiple indicator metrics into an overarching habitat suitability metric (e.g., the US Fish and Wildlife Service "blue books"), ecosystem condition indices (e.g., the USACE's Hydrogeomorphic Method of wetland assessment), or other consistent scale for comparison (e.g., the Stream Visual Assessment Protocol's arbitrary points scale).  
-- **Traceable accounts** that link quantitative data through qualitative lines of evidence such as those used in the National Climate Assessment.  
-- **Trade-off diagrams** that use condition assessments to quantify effects of management actions, link to cost estimates, and inform decision-making, which are common in USACE restoration projects like [Utoy Creek in Atlanta, Georgia](https://usace-wrises.github.io/UtoyDecisions/).  
+Insert after the paper is written.
 
-Regardless of the overarching approach, a key component to synthesizing watershed condition will be to identify specific, measurable watershed management objectives. These objectives could blend technical concerns (e.g., ecological effects of hydrologic change) and stakeholder concerns (e.g., probability of harmful algal blooms in Brewer Lake). These objectives can be nested together in a hierarchy linking overarching goals with more specific outcomes. For instance, Brewer Lake objectives could be structured into a hierarchy like the following example:  
+**Keywords**: watershed plan, multi-criteria decision analysis, HSPF, watershed modeling, integrated modeling
 
-- **Hydrology**. Minimize deviation of the riverine flow regime from regionally appropriate conditions.  
-    + *HSPF1*. Insert sub-objective related to a dimension of the flow regime (e.g., high magnitude events) and linking to a specific, measurable metric (e.g., peak discharge of a 2-year return interval / a reference hydrologic outcomes like a 2-year flow from StreamStats).  
-    + *HSPF2*. Insert sub-objective like baseflow.  
-    + *HSPF3*. Insert sub-objective related to Arkansas eflow metrics ([Leasure et al. 2016](https://onlinelibrary.wiley.com/doi/abs/10.1002/rra.2838)).  
-    + *HSPF4*. Insert sub-objective like minimum flow threshold from state withdrawal regulations.  
-- **Water Quality**. Maintain water quality above state-specified thresholds.  
-    + *Sediment*. Insert sub-objective about sediment loading to the lake (maybe a metric from HSPF?).  
-    + *Nitrogen*. Insert sub-objective about nitrogen loading to the lake (maybe a metric from HSPF?).  
-    + *Phosphorous*. Insert sub-objective about phosphorous loading to the lake (maybe a metric from HSPF?).  
-- **Biodiversity**. Foster watershed conditions that provide for a biodiverse aquatic and riparian community.  
-    + *Fish*. Insert sub-objective.  
-    + *Benthic Macro-Invertebrates*. Insert sub-objective.  
-    + *Riparian Condition*. Insert sub-objective.  
-- **Lake**. Avoid undesirable outcomes within Brewer Lake.  
-    + *HABs*. Insert sub-objective related to avoiding HABs or reducing the probability/frequency of events.  
-    + *Aesthetics*. Insert sub-objective about the beauty of the lake for residents.  
-    + *Water Supply*. Insert sub-objective about water supply resilience.  
-- **Social Outcomes**. Create conditions that meet community goals for long-term sustainability and intergenerational heritage. 
-    + *Preference*. Insert sub-objective about preferential uses of the watershed.  
-    + *Acquisitions*. Insert sub-objective about land ownership and access.  
-    + *Recreation*. Insert sub-objective about aquatic and riparian recreation uses.  
+# **Introduction**
 
-After agreeing on the focal outcomes, a major challenge to encounter will involve creating a consistent basis of comparison for these diverse metrics. [McKay et al. (2012)](https://erdc-library.erdc.dren.mil/bitstream/11681/3930/8/ERDC-TN-EMRRP-EBA-16.pdf) offer a variety of methods for normalizing outcomes to a consistent scale (e.g., 0 to 1), converting to consistent units (e.g., dollars), or combining through multi-criteria decision analysis. For the purpose of this report, it is assumed that all metrics can be placed on a consistent 0 to 5 scale for comparison, and Table 1 presents hypothetical data for the objectives identified above for both an existing condition as well as a management scenario. **Notably, no project data were used in this report, and all outcomes are hypothetical and purely for discussion purposes**. 
+General background and context: Watershed assessment is a common need. Driven by policy goals (e.g., EPA 319 processes) as well as needs for efficiently investing limited management dollars (find example of local group). Long history of examples (e.g., Chesapeake). 
+
+What is the status quo: Integrated modeling tools to inform decisions (Lamy et al. 2002). Predictive watershed modeling a crucial step (McKay et al. 2019). Multi-purpose watershed management is becoming more common (Lim and Lee 2009, Hoang et al. 2018, Vercruysse et al. 2019, Gatgash and Sadeghi 2023, Halder et al. 2023, Menichino et al. 2025). 
+
+What is wrong with the status quo: Multi-criteria methods are emerging to help navigate preferences (Yaryan Hall and Bledsoe 2023). However, methods often include cost as a criteria (rather than a constraint), which may obscure trade-offs inherent in watershed assessment (Newbold 2002). Techniques tend to emphasize a linear process rather than an iterative workflow. Methods usually focus on a single approach to inform decisions rather than a weight-of-evidence based on multiple methods (Linkov). Structured decision making is a family of tools (Hemming), and many tools may be brought to bear on a single project. 
+
+What is this paper contributing: Our objectives are to: (1) develop techniques for rapidly informing watershed prioritization and (2) demonstrate the merits of integrated modeling with many tools. We present these methods in the context of a watershed study for Brewer Lake in Arkansas, USA. Techniques are provided in the spirit of sharing a case study. 
+
+# **Methods**
+
+Insert overview of this section and the general flow of analyses. Maybe present the analyses as a series of common management questions for watershed studies?
+
+## *Brewer Lake Watershed*
+
+Brewer Lake is located in central Arkansas within the Arkansas Valley ecoregion, a transitional zone between the Ozark Mountains to the north and the Ouachita Mountains to the south. In 1983, the Brewer Lake reservoir was completed and is fed by Cypress Creek, which drains a 36 mi^2^ watershed (HUC boundary 111102050201). The reservoir serves as the primary drinking water supply for the city of Conway, and this municipal water supply reservoir provides the main context for this watershed study. 
+
+The high ridge slopes and moderate valley slopes of the Cypress Creek watershed make it representative of the broader Arkansas Valley physiographic province in which is resides (Hart 2014). Soils are predominantly sandy loam and silty loam with good drainage in the hydrologic soil groups C, C/D, and D. The climate is humid subtropical with hot, humid summers and mild winters. Average annual rainfall is 58 inches (NLDAS) with higher amounts in spring (5-7 inches per month) and lower amounts in summer and fall (3-5 inches per month). Average annual streamflow is 32 cfs (USGS Streamflow Gauge No. 07261090) with peak flows of more than 16,500 cfs, although zero flow periods can also extend for months (Santeford and Martin 1980). These hydrographic patterns are consistent with the intermittent flashy and intermittent runoff flow regimes characteristic of regional rivers (Leasure et al. 2016). Historically, the Arkansas Valley Hills ecoregion (EPA Level IV, Woods et al. 2004) would have included oak-hickory forest or oak-hickory-pine forest, and significant portions of the watershed remain as second- or third-growth deciduous forest, although evergreen forest and pasture are now common land uses as well (Hart 2014). Based on the 2020 census, population density is relatively low in the watershed with 36.5 residents per mi^2^ (96 residents per mi^2^ nationwide), and residents experience higher rates of poverty and unemployment than state averages (EJScreen 2025). 
+
+Watershed land use reflects the long history of occupation in the catchment as well as the low population density (Figure 1). Based on the 2021 National Land Cover Database, the major land use remains forest (45%), although the forest types now include deciduous, evergreen, mixed, and shrub/scrub systems. The second most common land use is pasture (42%), although the predominant agricultural effects stem from confined animal feeding operations like poultry houses. Urban land uses are isolated (7%), and residents rely primarily on septic tanks for wastewater management. Road networks are also limited, although a significant extent of unpaved roads may be important sediment sources (**XXX**, personal communication). Oil extraction using hydraulic fracturing (i.e., “fracking”) has increased across the entire Arkansas River Valley ecoregion (Baker et al. 2018), including the Cypress Valley watershed (Hart 2015), with potential impacts of these activities on water availability (Davis 2012) and stream biota (Johnson et al. 2015). Notably, riparian areas in the watershed remain relatively intact with 62% of area within 100-ft of streams in forested land uses. 
+
+```{r fig.cap="Figure 1. Brewer Lake watershed land use and potential sources of water quality degradation (i.e., septic systems, poultry houses, and hydraulic fracturing extraction sites)"}
+#Insert a figure summarizing Brewer Lake land use and management challenges
+#NOTE: This could be created in R for future use...
+knitr::include_graphics("01_BrewerLakeWatershedMap.png")
+```
+
+Brewer Lake was completed in 1983 through a partnership between the U.S. Army Corps of Engineers and the Conway Corporation, based on authorization from the Water Resources Development Act of 1974 (PL93-251, Title 1, Sec. 10). The primary purpose of the 28,500 acre-foot reservoir is water supply for over 70,000 residents in the city of Conway as well as nearby counties, although the lake is also used for fishing and recreation. Water quality changes can occur with land use change, and sediment, nitrogen, and phosphorous inputs to the lake are a particular focus for reservoir managers because of both drinking water requirements as well as secondary outcomes like harmful algal blooms (HABs) and reduced reservoir life span (**XXX**, personal observation). In the fall of 2020, a cyanobacterial bloom was observed intermittently, indicating a broader potential for water quality threats to this important drinking water source.
+
+## *Watershed Planning Process*
+
+**Items to cover in this section**.  
+
+- Motivation for the study. USACE watershed study, Conway management, EPA 319 process.  
+- Problems and objectives.  
+- Stakeholder engagement.
+- Primary vs. secondary objectives (Table 1). 
+
+```{r echo=FALSE}
+#Create empty table
+Table01 <- as.data.frame(matrix(NA, nrow = 7, ncol = 3))
+colnames(Table01) <- c("Objectives", "Indicators", "Targets")
+
+#Specify rows of the table
+Table01[1,] <- c("PRIMARY OBJECTIVES", "", "")
+Table01[2,] <- c("Reduce sediment loading with the implicit goals of minimizing riverine embeddedness, minimizing reservoir sedimentation, and reducing phosphorous delivery", "Average annual sediment yield (lb/ac/yr) at the outlet of each of 26 sub- catchments", "15% reduction in annual load at the inlet to Brewer Lake based on a 2009-2023 baseline")
+Table01[3,] <- c("Reduce nitrogen loading with the assumption that Brewer Lake algal blooms are nitrogen limited", "Average annual delivery of total nitrogen (lb/ac/yr) at the outlet of each of 26 sub-catchments", "15% reduction in annual load at the inlet to Brewer Lake based on a 2009-2023 baseline")
+Table01[4,] <- c("Reduce phosphorous loading to Brewer Lake to minimize long-term nutrient storage and eutrophication", "Average annual delivery of total phosphorous (lb/ac/yr) at the outlet of each of 26 sub- catchments", "15% reduction in annual load at the inlet to Brewer Lake based on a 2009-2023 baseline")
+Table01[5,] <- c("SECONDARY OBJECTIVES", "", "")
+Table01[6,] <- c("Maximize drought resilience", "Qualitative assessment", "none")
+Table01[7,] <- c("Facilitate resident enjoyment", "Qualitative assessment", "none")
+Table01[8,] <- c("Foster watershed conditions that provide for regional biodiversity", "Qualitative assessment", "none")
+Table01[9,] <- c("Promote multi-generational watershed stewardship", "Qualitative assessment", "none")
+
+#Send output table rows into a single matrix
+rownames(Table01) <- NULL
+knitr::kable(Table01, caption="Table 1. Objectives, indicators, and targets for the Brewer Lake watershed management plan.", align="c") 
+```
+
+## *Exploratory Assessment of Management Actions*
+
+**Items to cover in this section**.  
+
+- Can watershed management feasibly affect the desired outcomes?  
+- What management actions are appropriate? Which oneswere considered? Combinations of actions into scenarios.  
+- Exploration of the feasibility of the pollutant reduction targets using PLET. 
+
+```{r}
+#Specify pollutant removal efficiency from PLET
+PLET <- data.frame(matrix(NA, nrow=3, ncol=4))
+colnames(PLET) <- c("Scenario", "Sediment", "Nitrogen", "Phosphorous")
+PLET$Scenario <- c("Pasture BMPs", "River BMPs", "Combined BMPs")
+PLET$Sediment <- c(0.700, 0.709, 0.693)
+PLET$Nitrogen <- c(0.422, 0.685, 0.728)
+PLET$Phosphorous <- c(0.550, 0.684, 0.711)
+
+#Specify colors for each of the constituents
+PLET.colors <- viridis(3)
+```
+
+
+## *Watershed Modeling*
+
+**Items to cover in this section**.  
+
+- Why is watershed modeling needed? Establish baseline conditions, understand sources at locations without data, predict effectiveness of management actions (eventually).  
+- HSPF model setup: inputs, spatial and temporal resolution, calibration, goodness-of-fit.
+- Model application to estimate load for sediment, nitrogen, and phosphorous.
+
+
+## *Prioritization of Catchments*
+
+The extent of BMP application may be significantly reduced, if actions are placed strategically throughout the watershed in locations with the greatest return-on-investment. This section describes a suite of analyses to identify strategically important catchments for BMP application. The HSPF model used 60 sub-catchments to provide sufficient predictive capability, but this spatial resolution was considered finer scale (**XXX** mi^2^ average size) than needed for management. These sub-catchments were aggregated into 26 larger catchments for prioritization purposes (**XXX** mi^2^ average size), based on slope, soil type, land use, and proximity to Brewer Lake. 
+
+To identify high-reward areas, or areas in the watershed where BMPs would provide the greatest return-on-investment, the sub-catchments were prioritized using two different methods: ranking and multiple criteria decision analysis (MCDA). The ranking method identified sub-catchments with high pollutant loading and feasibility for management based on separate criteria. Conversely, the MCDA compared each sub-catchment based on a weighted average of multiple criteria summarized in a single score. Each technique provides different insights into the prioritization process, and catchments identified as high reward under different sets of assumptions provide confidence that BMP application in these areas will provide the greatest return-on-investment.
+
+### *Prioritization Method 1 – Ranking*
+
+Two main factors often drive the efficacy of a watershed management action. First, will it achieve the technical objectives (in this case related to sediment, nitrogen, and phosphorous reduction)? Second, can the action be feasibly implemented? The highest priority actions would then be those where actions are feasible to achieve the load reduction goals. 
+
+The flux of sediment, nitrogen, and phosphorous from HSPF were used to assess the degree to which technical objectives were achieved. The catchments were ranked from lowest to highest loading for each constituent. The average rank across all three constituents was used as a general proxy for identifying “problem areas” in the watershed. 
+
+Ideally, the feasibility of an action could be assessed relative to the total project cost, stakeholder surveys, or other data. However, no direct metrics were available for all sites in this watershed, and a suite of proxy metrics were used as a relative metric of feasibility. First, appraised land value from tax records was used as a general proxy for affordability. Second, the forested proportion of a 100-foot riparian area was used as a surrogate for the durability of BMPs with the assumption that, all things equal, BMPs would perform better in sites with forested buffers. Third, time of travel from the catchment outlet to Brewer Lake (from HSPF) was used as a proxy for the directness of the effects on Brewer Lake water quality. The catchments were then ranked from lowest to highest on these factors, and the average rank was used as a general proxy for the feasibility of actions.
+
+The relative rankings of load and feasibility factors provided multiple pathways for identifying priority catchments. First, catchments were selected that provided the greatest level of either technical outcomes or feasibility. Second, catchments were identified based on trade-off analysis analogous to cost-effectiveness analysis (Newbold 2002, Menichino et al. 2025). Catchments with higher feasibility at the same level of water quality load or higher pollutant load at the same level of feasibility were identified as "dominant" alternatives. Finally, catchments providing low levels of either technical objectives or feasibility were eliminated from consideration in future analysis.
+
+```{r}
+#Import all Brewer Lake data
+#NOTE: Pugh scores for distance and land use could be replaced with raw data.
+brewer <- read.csv("Watershed Ranking_2025-12-04_import.csv", header=TRUE, dec=".", na.strings="NA", stringsAsFactors = FALSE)
+
+#Compute number of catchments
+ncatch <- length(brewer$Catchment)
+
+##########
+#METHOD 1 - Ranking
+brewer.rank <- data.frame(matrix(NA, nrow=ncatch, ncol=8))
+colnames(brewer.rank) <- c("Sediment", "Nitrogen", "Phosphorous", "Affordability", "Buffer", "TravelTime", "Load", "Feasibility")
+brewer.rank$Sediment <- rank(brewer$SedLoad_lb.ac.yr)
+brewer.rank$Nitrogen <- rank(brewer$TN_lb.ac.yr)
+brewer.rank$Phosphorous <- rank(brewer$TP_lb.ac.yr)
+brewer.rank$Affordability <- rank(-brewer$Affordability_USD.ac)
+brewer.rank$Buffer <- rank(brewer$Buffer_Forest_Cover_per)
+brewer.rank$TravelTime <- rank(-brewer$Travel_Time_Brewer_hr, ties.method = "min")
+brewer.rank$Load <- apply(cbind(brewer.rank$Sediment, brewer.rank$Nitrogen, brewer.rank$Phosphorous), 1, mean)
+brewer.rank$Feasibility <- apply(cbind(brewer.rank$Affordability, brewer.rank$Buffer, brewer.rank$TravelTime), 1, mean)
+```
+
+### *Prioritization Method 2 – Multi-criteria decision analysis (MCDA)*
+
+Many methods have been developed for comparing disparate metrics using a spectrum of qualitative to quantitative techniques (Linkov et al. 2009). Multi-criteria decision analysis (MCDA) provides a set of methods for normalizing metrics with different units and scales and combining those metrics into a single score for comparing alternatives, which has proven particularly useful for the multi-objective context of watershed planning (Yaryan Hall and Bledsoe 2023).
+
+A form of MCDA was used to prioritize catchments in the Brewer Lake watershed using a weighted-score based on multiple criteria. Five criteria were included in this analysis: flux of sediment, flux of total nitrogen, flux of total phosphorous, proportion of land use in pasture, and distance from the catchment outlet to Brewer Lake. All metrics were converted to a 1 to 5 scale for comparison across different units with 1 and 5 representing less and more preferrable outcomes, respectively. Flux scores were computed based on the quantiles of the data from 0-20%, 20-40%, 40-60%, 60-80%, and 80-100% with corresponding scores of 1, 2, 3, 4, and 5, respectively. Land use was assessed based on proportion of pasture in the catchment with thresholds at < 30%, 30-40%, 40-50%, 50-60%, and > 60% for 1 to 5 scores. Distance to the lake was normalized as 0 miles, 0-1 miles, 1-2 miles, 2-3 miles, 3-4 miles, and > 4 miles for scores 5 to 1. Weighting was determined based on pairwise comparison of the relative importance of each criteria, where sediment, nitrogen, phosphorous, land use, and distance were ultimately weighted as 20%, 27%, 33%, 13%, and 7%, respectively. All normalized metrics were combined through a weighted-average to produce an overall score for each catchment on a 1 to 5 scale, where 5 represents the highest priority catchment.
 
 
 ```{r}
-#Specify a hypothetical data set as a data frame
-brewer <- list(Category=NA, Metric=NA, ExCond=NA, MgmtScen=NA, Color=NA)
+#METHOD 2 - MCDA
 
-brewer$Category <- c("Hydrology", "Hydrology", "Hydrology", "Hydrology", 
-                     "WQ", "WQ", "WQ", 
-                     "Biodiversity", "Biodiversity", "Biodiversity", 
-                     "Lake", "Lake", "Lake", 
-                     "Social", "Social", "Social")
+#Specify weights for sediment, nitrogen, phosphorous, distance, and land use
+brewer.weights <- data.frame(matrix(c(3, 4, 5, 1, 2), nrow=1, ncol=5))
+colnames(brewer.weights) <- c("Sediment", "Nitrogen", "Phosphorous", "Distance", "LandUse")
 
-brewer$Metric <- c("HSPF1", "HSPF2", "HSPF3", "HSPF4", 
-                     "Sediment", "Nitrogen", "Phosphorous", 
-                     "Fish", "Inverts", "Riparian", 
-                     "HABs", "Aesthetics", "WaterSupply", 
-                     "Preferences", "Acquisitions", "Recreation")
+#Compute summary stats for binning data
+brewer.bins <- apply(brewer[,c(3,4,5)], 2, quantile, probs=c(0.0, 0.2, 0.4, 0.6, 0.8, 1.0))
+brewer.bins <- data.frame(brewer.bins)
+colnames(brewer.bins) <- c("Sediment", "Nitrogen", "Phosphorous")
 
-brewer$ExCond <- c(3,1,2,4,
-                   3,2,1,
-                   3,3,3,
-                   4,4,5,
-                   4,4,2)
+#Compute arbitrary 1-5 scale (Pugh Scores)
+brewer.pugh <- data.frame(matrix(NA, nrow=ncatch, ncol=7))
+colnames(brewer.pugh) <- c("Sediment", "Nitrogen", "Phosphorous", "Distance", "LandUse", "Total", "Normalized")
 
-brewer$MgmtScen <- c(4,4,3,5,
-                   4,4,2,
-                   3,4,5,
-                   4,5,5,
-                   4,3,3)
-
-brewer$Color <- c(viridis(5)[1], viridis(5)[1], viridis(5)[1], viridis(5)[1],
-                  viridis(5)[2], viridis(5)[2], viridis(5)[2],
-                  viridis(5)[3], viridis(5)[3], viridis(5)[3],
-                  viridis(5)[4], viridis(5)[4], viridis(5)[4],
-                  viridis(5)[5], viridis(5)[5], viridis(5)[5])
-
-#Create a data frame from this list
-brewer.df <- as.data.frame(brewer)
-
-#Send output table for the Brewer Lake outcomes
-knitr::kable(brewer.df[,1:4], caption="Table 1. Hypothetical output data from Brewer Lake Watershed assessment.", align="c") 
+#Loop through catchments to populate each field on the Pugh scale (1-5)
+for(i in 1:ncatch){
+  #Sediment
+  brewer.pugh$Sediment[i] <- ifelse(brewer$SedLoad_lb.ac.yr[i] >= brewer.bins$Sediment[5], 5, 
+                                    ifelse(brewer$SedLoad_lb.ac.yr[i] >= brewer.bins$Sediment[4], 4,
+                                    ifelse(brewer$SedLoad_lb.ac.yr[i] >= brewer.bins$Sediment[3], 3,
+                                    ifelse(brewer$SedLoad_lb.ac.yr[i] >= brewer.bins$Sediment[2], 2,
+                                    ifelse(brewer$SedLoad_lb.ac.yr[i] >= brewer.bins$Sediment[1], 1, "ERROR")))))
+  #Nitrogen
+  brewer.pugh$Nitrogen[i] <- ifelse(brewer$TN_lb.ac.yr[i] >= brewer.bins$Nitrogen[5], 5, 
+                                    ifelse(brewer$TN_lb.ac.yr[i] >= brewer.bins$Nitrogen[4], 4,
+                                    ifelse(brewer$TN_lb.ac.yr[i] >= brewer.bins$Nitrogen[3], 3,
+                                    ifelse(brewer$TN_lb.ac.yr[i] >= brewer.bins$Nitrogen[2], 2,
+                                    ifelse(brewer$TN_lb.ac.yr[i] >= brewer.bins$Nitrogen[1], 1, "ERROR")))))
+  #Phosphorous
+  brewer.pugh$Phosphorous[i] <- ifelse(brewer$TP_lb.ac.yr[i] >= brewer.bins$Phosphorous[5], 5, 
+                                    ifelse(brewer$TP_lb.ac.yr[i] >= brewer.bins$Phosphorous[4], 4,
+                                    ifelse(brewer$TP_lb.ac.yr[i] >= brewer.bins$Phosphorous[3], 3,
+                                    ifelse(brewer$TP_lb.ac.yr[i] >= brewer.bins$Phosphorous[2], 2,
+                                    ifelse(brewer$TP_lb.ac.yr[i] >= brewer.bins$Phosphorous[1], 1, "ERROR")))))
+  
+  #Distance
+  brewer.pugh$Distance[i] <- brewer$Distance_Brewer_Pugh[i]
+  
+  #Land Use
+  brewer.pugh$LandUse[i] <- brewer$Land_Use_Pugh[i]
+  
+  #Compute weighted score
+  brewer.pugh$Total[i] <- brewer.pugh$Sediment[i] * brewer.weights$Sediment +
+                          brewer.pugh$Nitrogen[i] * brewer.weights$Nitrogen + 
+                          brewer.pugh$Phosphorous[i] * brewer.weights$Phosphorous +
+                          brewer.pugh$Distance[i] * brewer.weights$Distance + 
+                          brewer.pugh$LandUse[i] * brewer.weights$LandUse
+  
+  #Normalize by the total weight
+  brewer.pugh$Normalized[i] <- brewer.pugh$Total[i] / sum(brewer.weights)
+}
 ```
 
 
+## *Identifying Management Actions in Priority Catchments*
 
-# **Exploring Data Summaries**
+**Items to cover in this section**.  
 
-
-## *Bar Chart*
-
-Assuming metrics are on a consistent scale, a variety of data visualization methods could be used to condense information for decision-makers. A straightforward method would be using a bar plot of all outcomes with the following advantages, disadvantages, and notes on usage.  
-
-- Bar plots will be familiar to stakeholders and have a low barrier to entry.  
-- Data can be color-coded to aggregate findings for overarching objectives (e.g., hydrology vs. water quality).  
-- Consistent frames of reference could be easily added to this figure like a goal specified by stakeholders, which provide a means of understanding the gap between existing and desired conditions. 
+- Combining analysis of management actions with the priority locations.   
+- Second round of PLET analysis in the priority catchments.  
+- Verification of the ability to achieve targets.  
+- Bracketing in the scale of activity needed for watershed managers (i.e., ranges of area).  
 
 
-
-```{r fig.height = 6, fig.width =6}
-#OLD CODE for constructing a bar plot with base R
-#Plot settings for turning axis labels and setting margins
-#par(las=2, mar=c(6,3,1,1))
-#barplot(height=brewer$ExCond, names=brewer$Metric,
-#        col=brewer$Color, 
-#        main="", ylab="Qualitative Output")
-#box()
+```{r}
+#Specify priority catchments
+priorities <- c(1, 9, 10, 13, 17, 19, 22, 25)
+brewer.top <- brewer[priorities,]
 
 ##########
-#Construct a bar plot with ggplot based on the brewer data frame
-#fct_inorder reorders the data set to match the original (rather than alphabetically)
-ggplot(data=brewer.df, aes(x=fct_inorder(Metric), y=ExCond)) +
-  #Add bar plot
-  geom_bar(stat = "identity", fill=brewer.df$Color, col="black") + 
-  #Turn axis labels
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
-  #Add axis titles
-  xlab("") + ylab("Qualitative Output")
+#Compute pollutant removal efficiency when varying the proportion of pasture areas in each catchment
 
-```
+#Specify range of areas for each watershed (pasture only)
+area <- seq(0,1,0.01)
 
+#Estimate removal efficiency for varying area for SEDIMENT
+eff.sed <- matrix(NA, nrow=length(area), ncol=3)
+eff.sed[,1] <- area * PLET$Sediment[1]
+eff.sed[,2] <- area * PLET$Sediment[2]
+eff.sed[,3] <- area * PLET$Sediment[3]
 
-## *Rose Diagram*
+#Estimate removal efficiency for varying area for SEDIMENT
+eff.nit <- matrix(NA, nrow=length(area), ncol=3)
+eff.nit[,1] <- area * PLET$Nitrogen[1]
+eff.nit[,2] <- area * PLET$Nitrogen[2]
+eff.nit[,3] <- area * PLET$Nitrogen[3]
 
-An alternative approach would be to use a "rose diagram" as a visual summary, which aligns with methods advocated by the Society of Ecological Restoration using their so-called ["recovery wheel"](https://www.ser.org/page/sernews3113). This method is also has notable advantages and disadvantages.  
-
-- Rose diagrams will be less familiar to many stakeholders, but that novelty can be an asset in terms of being more "eye catching" or intriguing.  
-- Rose diagrams display smaller area for lower condition, which draws attention to gaps between current and desired states.  
-- These figures draw attention to disparities between process by making some outcomes look "lop-sided" such as the difference between water quality and lake outcomes in the example figure. 
-
-
-```{r fig.height = 6, fig.width =6}
-#Construct a circular bar plot with ggplot
-#Help: https://r-graph-gallery.com/web-circular-barplot-with-R-and-ggplot2.html
-
-#Open the ggplot dialog based on the brewer data frame
-#fct_inorder reorders the data set to match the original (rather than alphabetically)
-brewer.ExCond <- ggplot(data=brewer.df, aes(x=fct_inorder(Metric), y=ExCond)) +
-  
-  #Make custom panel grid
-  geom_hline(aes(yintercept = y), data.frame(y = c(0:5)), color = "darkgrey") +
-  
-  #Add bars 
-  geom_col(aes(x=fct_inorder(Metric), y=ExCond), col="black", fill = brewer$Color, alpha=0.8, show.legend = FALSE) +
-  
-  #Change ylimits
-  ylim(0,5) +
-
-  #Move to circular coordinate system
-  coord_polar() + 
-  
-  #Annotate figure with output levels
-    annotate(x=0, y=1, label="1", geom="text", cex=8, fontface=2) +
-    annotate(x=0, y=2, label="2", geom="text", cex=8, fontface=2) +
-    annotate(x=0, y=3, label="3", geom="text", cex=8, fontface=2) +
-    annotate(x=0, y=4, label="4", geom="text", cex=8, fontface=2) +
-    annotate(x=0, y=5, label="5", geom="text", cex=8, fontface=2) +
-  
-  #Annotate figure with output categories?
-    #annotate(x=2.5, y=5, label="Hydrology", geom="text", angle = -60, cex=8, fontface=2) +
-  
-  #Add lines breaking the categories of outputs
-    geom_vline(aes(xintercept = 0), linewidth=1.5) +
-    geom_vline(aes(xintercept = 4.5), linewidth=1.5) +
-    geom_vline(aes(xintercept = 7.5), linewidth=1.5) +
-    geom_vline(aes(xintercept = 10.5), linewidth=1.5) +
-    geom_vline(aes(xintercept = 13.5), linewidth=1.5) +
-
-  #Add and modify chart elements
-    #remove axis ticks and text
-    theme(axis.title = element_blank(), axis.ticks = element_blank(),axis.text.y = element_blank()) +
-    #change background color to white
-    theme(panel.background = element_rect(fill = "white", color = "white")) + 
-    #remove extra grid lines
-    theme(panel.grid = element_blank(), panel.grid.major.x = element_blank()) 
-
-#Render the figure 
-brewer.ExCond
-```
-
-
-# **Scenario Planning Options**
-
-
-The prior figures emphasize the existing condition or provide a snapshot of watershed status. However, they do not speak to the efficacy of proposed management actions. The following figures provide alternative means of making this comparison.
-
-The most straightforward method would involve replicating a plot type for the current and desired state. This technique is advantageous in the sense of there is little learning curve, and it seizes on familiarity. However, these side-by-side plots can be challenging to compare for multiple metrics.
-
-
-```{r fig.height = 6, fig.width =12}
-#CREATE A PLOT FOR MANAGEMENT SCENARIOS
+#Estimate removal efficiency for varying area for SEDIMENT
+eff.pho <- matrix(NA, nrow=length(area), ncol=3)
+eff.pho[,1] <- area * PLET$Phosphorous[1]
+eff.pho[,2] <- area * PLET$Phosphorous[2]
+eff.pho[,3] <- area * PLET$Phosphorous[3]
 
 ##########
-#Construct a circular bar plot with ggplot
-#Help: https://r-graph-gallery.com/web-circular-barplot-with-R-and-ggplot2.html
+#Compute reduced pollutant load when varying the proportion of pasture areas in each catchment
 
-#Open the ggplot dialog based on the brewer data frame
-#fct_inorder reorders the data set to match the original (rather than alphabetically)
-brewer.MgmtScen <- ggplot(data=brewer.df, aes(x=fct_inorder(Metric), y=MgmtScen)) +
-  
-  #Make custom panel grid
-  geom_hline(aes(yintercept = y), data.frame(y = c(0:5)), color = "darkgrey") +
-  
-  #Add bars 
-  geom_col(aes(x=fct_inorder(Metric), y=MgmtScen), col="black", fill = brewer$Color, alpha=0.8, show.legend = FALSE) +
-  
-  #Change ylimits
-  ylim(0,5) +
+#Create three dimensional array to store reduction estimates
+#rows = varying area, columns = priority catchments, slices = BMP scenarios
+reduction.sed <- array(NA, dim=c(length(area), length(priorities), 3))
+reduction.nit <- array(NA, dim=c(length(area), length(priorities), 3))
+reduction.pho <- array(NA, dim=c(length(area), length(priorities), 3))
 
-  #Move to circular coordinate system
-  coord_polar() + 
-  
-  #Annotate figure with output levels
-    annotate(x=0, y=1, label="1", geom="text", cex=8, fontface=2) +
-    annotate(x=0, y=2, label="2", geom="text", cex=8, fontface=2) +
-    annotate(x=0, y=3, label="3", geom="text", cex=8, fontface=2) +
-    annotate(x=0, y=4, label="4", geom="text", cex=8, fontface=2) +
-    annotate(x=0, y=5, label="5", geom="text", cex=8, fontface=2) +
-  
-  #Annotate figure with output categories?
-    #annotate(x=2.5, y=5, label="Hydrology", geom="text", angle = -60, cex=8, fontface=2) +
-  
-  #Add lines breaking the categories of outputs
-    geom_vline(aes(xintercept = 0), linewidth=1.5) +
-    geom_vline(aes(xintercept = 4.5), linewidth=1.5) +
-    geom_vline(aes(xintercept = 7.5), linewidth=1.5) +
-    geom_vline(aes(xintercept = 10.5), linewidth=1.5) +
-    geom_vline(aes(xintercept = 13.5), linewidth=1.5) +
-
-  #Add and modify chart elements
-    #remove axis ticks and text
-    theme(axis.title = element_blank(), axis.ticks = element_blank(),axis.text.y = element_blank()) +
-    #change background color to white
-    theme(panel.background = element_rect(fill = "white", color = "white")) + 
-    #remove extra grid lines
-    theme(panel.grid = element_blank(), panel.grid.major.x = element_blank()) 
+#Loop over each area amount to estimate reduction for each catchment
+for(i in 1:length(area)){
+  #Sediment
+    reduction.sed[i,,1] <- eff.sed[i,1] * brewer.top$SedLoad_lb.ac.yr
+    reduction.sed[i,,2] <- eff.sed[i,2] * brewer.top$SedLoad_lb.ac.yr
+    reduction.sed[i,,3] <- eff.sed[i,3] * brewer.top$SedLoad_lb.ac.yr
+  #Nitrogen
+    reduction.nit[i,,1] <- eff.nit[i,1] * brewer.top$TN_lb.ac.yr
+    reduction.nit[i,,2] <- eff.nit[i,2] * brewer.top$TN_lb.ac.yr
+    reduction.nit[i,,3] <- eff.nit[i,3] * brewer.top$TN_lb.ac.yr
+  #Phosphorous
+    reduction.pho[i,,1] <- eff.pho[i,1] * brewer.top$TP_lb.ac.yr
+    reduction.pho[i,,2] <- eff.pho[i,2] * brewer.top$TP_lb.ac.yr
+    reduction.pho[i,,3] <- eff.pho[i,3] * brewer.top$TP_lb.ac.yr
+}
 
 ##########
-#Render the figure 
-grid.arrange(brewer.ExCond + ggtitle("Existing Condition"),
-             brewer.MgmtScen + ggtitle("Management Scenario"), 
-             nrow = 1, ncol=2)
+#Compute total reduction in pollutant load across ALL PRIORITY CATCHMENTS when varying the proportion of pasture area
+
+#Create three dimensional array to store reduction estimates
+#rows = varying area, columns = BMP scenarios, slices = pollutant
+reduction.total <- array(NA, dim=c(length(area), 3, 3))
+reduction.total[,,1] <- apply(reduction.sed[,,], c(1,3), sum)
+reduction.total[,,2] <- apply(reduction.nit[,,], c(1,3), sum)
+reduction.total[,,3] <- apply(reduction.pho[,,], c(1,3), sum)
 ```
 
-The following represent two options where the current and desired state are embedded in the same figure, and the two visualizations provide different mechanisms for displaying these data. In the first, the management scenarios is shown as a simple data point showing how each process would benefit (or be harmed) by alternative management actions. The second figure extends the rose diagram to for categories with benefits, but masks negative changes (e.g., to acquisitions).
+# **Results**
 
-```{r fig.height = 6, fig.width =12}
-#Add features to the prior plot reflecting management scenarios
-brewer.Mgmt.points <- brewer.ExCond + 
-  #Add data points reflecting management
-  geom_point(aes(x=fct_inorder(Metric), y=MgmtScen), size = 3, color = "gray12")
+Overview of the question-centric approach to presenting the results.
 
-##########
-#Add features to the prior plot reflecting management scenarios
-brewer.Mgmt.poly <- brewer.ExCond + 
-  #Add data points reflecting management
-  geom_col(aes(x=fct_inorder(Metric), y=MgmtScen), col="black", fill = brewer$Color, alpha=0.1, show.legend = FALSE)
 
-##########
-#Render the figure 
-grid.arrange(brewer.Mgmt.points + ggtitle("Points added to reflect management"),
-             brewer.Mgmt.poly + ggtitle("Polygons extended to reflect management"), 
-             nrow = 1, ncol=2)
+## *Can watershed management achieve the load reduction targets?*
+
+Insert.
+
+```{r fig.cap="Figure 2. Pollutant removal rates for three scenarios of BMP application: pasture BMPs, river BMPs, and combined BMPs.)"}
+#Create figure summarizing prioritization based on ranking method
+png(filename="02_PLET_Efficiencies.png", width = 6, height = 4, units = "in", res = 400)
+
+#Specify two plot areas
+par(mar=c(4,4,1,1))
+
+#Create the plot
+barplot(height=as.matrix(t(PLET[,2:4])), names.arg=PLET$Scenario, col=PLET.colors, beside=TRUE, ylim = c(0,1), 
+     xlab="Management Scenario", ylab="Pollutant Removal Efficiency", main="")
+box()
+abline(h=c(0.2, 0.4, 0.6, 0.8), lty=3, lwd=0.5)
+
+#Add legend
+legend("topleft", legend=c("Sediment", "Nitrogen", "Phosphorous"), fill=PLET.colors, bg="white", cex=0.8)
+
+#Turn off plot device
+invisible(dev.off())
+
+knitr::include_graphics("02_PLET_Efficiencies.png")
 ```
 
 
-# **Scenario Planning Options**
+## *Where are the sources of sediment, nitrogen, and phosphorous in the watershed?*
 
-Notably, these methods could all be applied in a spatially distributed format to address different conditions in sub-watersheds across the basin. The following example provides a summary of nine sub-watersheds for the purpose of looking for sub-basins to target management actions.  
+Describe results from HSPF and the associated estimates of pollutant loads.
 
-```{r fig.height = 12, fig.width =12}
-#Render the figure 
-grid.arrange(brewer.ExCond + ggtitle("Sub-watershed A"), 
-             brewer.ExCond + ggtitle("Sub-watershed B"),
-             brewer.ExCond + ggtitle("Sub-watershed C"),
-             brewer.ExCond + ggtitle("Sub-watershed D"), 
-             brewer.ExCond + ggtitle("Sub-watershed E"),
-             brewer.ExCond + ggtitle("Sub-watershed F"),
-             brewer.ExCond + ggtitle("Sub-watershed H"), 
-             brewer.ExCond + ggtitle("Sub-watershed I"),
-             brewer.ExCond + ggtitle("Sub-watershed J"),
-             nrow = 3, ncol=3)
-
+```{r fig.cap="Figure 3. HSPF output for pollutant loads. All loads are expressed as median fluxes of daily load estimates over a simulation period of 2009-2023."}
+#Insert a figure summarizing pollutant load estimates from HSPF
+#NOTE: This could be created in R for future use...
+knitr::include_graphics("03_HSPF.Outputs.png")
 ```
+
+
+## *What catchments are priorities for management actions?*
+
+Insert.
+
+Talk through ranking results.
+
+```{r fig.cap="Figure 4. Prioritization based on average ranking relative to water quality loads (TN, TP, Sediment) and feasibility (appraised land value, riparian buffers, and time of travel to Brewer Lake). Labels indicate catchment number."}
+#Create figure summarizing prioritization based on ranking method
+png(filename="04_Prioritization_Ranking.png", width = 6, height = 6, units = "in", res = 400)
+
+#Specify two plot areas
+par(mar=c(4,4,1,1))
+
+#Create the plot
+plot(brewer.rank$Feasibility, brewer.rank$Load, xlim = c(0,27), ylim = c(0,27), 
+     xlab="Average Rank on Feasibility Criteria", ylab="Average Rank on Pollutant Load Criteria", main="")
+
+#Add catchment labels
+text(brewer.rank$Feasibility, brewer.rank$Load, labels=brewer$Catchment, pos=3)
+
+#Fill in points for the priority sites
+points(brewer.rank$Feasibility[c(1,17,19,22)], brewer.rank$Load[c(1,17,19,22)], pch=19, lwd=2)
+
+#Turn on grid lines
+grid(); box()
+
+#Add legend
+legend("topright", legend=c("All catchments", "Prioritized catchments"), pch=c(1,19), bg="white", cex=0.8)
+
+#Turn off plot device
+invisible(dev.off())
+
+knitr::include_graphics("04_Prioritization_Ranking.png")
+```
+
+Talk through the MCDA results
+
+```{r echo=FALSE}
+#Create empty table
+Table02 <- cbind(brewer.pugh[,1:5], round(brewer.pugh$Normalized, 1))
+colnames(Table02) <- c("Sediment", "Nitrogen", "Phosphorous", "Distance to Lake", "Land Use", "Weighted Score")
+
+#Send output table rows into a single matrix
+rownames(Table02) <- NULL
+knitr::kable(Table02, caption="Table 2. Summary of MCDA metrics for prioritization.", align="c") 
+```
+
+## *Can watershed-wide load reduction targets be met in only the priority watersheds?*
+
+Insert.
+
+```{r fig.cap="Figure 5. Examination of the extent of BMPs required to meet watershed goals by only taking action in the eight (8) priority catchments. All three BMP scenarios can meet the 15% reduction target for nitrogen, phosphorous, and sediment by taking action only in the priority sub-catchments."}
+#Create figure estimating area requirements to meet pollutant removal targets
+png(filename="05_PLET_PriorityCatchments.png", width = 6, height = 8, units = "in", res = 400)
+
+#Specify two plot areas
+par(mar=c(4,4,1,1), mfrow=c(3,1))
+
+#Create SEDIMENT plot
+plot(c(0,1), c(0,1), type="n", xlim = c(0,1), ylim = c(0,max(reduction.total[,,1])), 
+     xlab="Proportion of Pasture Area", ylab="Annual Sediment Load Reduction (lb/ac/yr)")
+grid(); box()
+
+  #Add lines to the plot
+  lines(area, reduction.total[,1,1], col=PLET.colors[1])
+  lines(area, reduction.total[,2,1], col=PLET.colors[2])
+  lines(area, reduction.total[,3,1], col=PLET.colors[3])
+  
+  #Add reduction goal
+  abline(h=0.15*sum(brewer$SedLoad_lb.ac.yr), lty=3, lwd=3)
+  
+  #Add catchment labels
+  text(0.05,0.9*max(reduction.total[,,1]), labels="(A)", cex=2)
+
+  #Add legend
+  legend("bottomright", legend=c("Pasture BMPs", "River BMPs", "Combined BMPs", "Reduction Target"), 
+         fill=c(PLET.colors,NA), border=c("black", "black", "black", NA), lty=c(NA, NA, NA, 3), lwd=c(NA, NA, NA, 3), bg="white", cex=0.8)
+
+#Create NITROGEN plot
+plot(c(0,1), c(0,1), type="n", xlim = c(0,1), ylim = c(0,max(reduction.total[,,2])), 
+     xlab="Proportion of Pasture Area", ylab="Annual Nitrogen Load Reduction (lb/ac/yr)")
+grid(); box()
+
+  #Add lines to the plot
+  lines(area, reduction.total[,1,2], col=PLET.colors[1])
+  lines(area, reduction.total[,2,2], col=PLET.colors[2])
+  lines(area, reduction.total[,3,2], col=PLET.colors[3])
+  
+  #Add reduction goal
+  abline(h=0.15*sum(brewer$TN_lb.ac.yr), lty=3, lwd=3)
+  
+  #Add catchment labels
+  text(0.05,0.9*max(reduction.total[,,2]), labels="(B)", cex=2)
+  
+#Create PHOSPHOROUS plot
+plot(c(0,1), c(0,1), type="n", xlim = c(0,1), ylim = c(0,max(reduction.total[,,3])), 
+     xlab="Proportion of Pasture Area", ylab="Annual Phosphorous Load Reduction (lb/ac/yr)")
+grid(); box()
+
+  #Add lines to the plot
+  lines(area, reduction.total[,1,3], col=PLET.colors[1])
+  lines(area, reduction.total[,2,3], col=PLET.colors[2])
+  lines(area, reduction.total[,3,3], col=PLET.colors[3])
+  
+  #Add reduction goal
+  abline(h=0.15*sum(brewer$TP_lb.ac.yr), lty=3, lwd=3)
+  
+  #Add catchment labels
+  text(0.05,0.9*max(reduction.total[,,3]), labels="(C)", cex=2)
+
+#Turn off plot device
+invisible(dev.off())
+
+knitr::include_graphics("05_PLET_PriorityCatchments.png")
+```
+
+# **Discussion**
+
+**Potential topics that could be ripe for discussion**.  
+
+- Methods for multi-purpose planning are rapidly evolving. Methods can be applied in conjunction (rather than picking one approach).
+- Multi-purpose planning is hard. Trade-offs are challenging to think through. Secondary objectives were important here, but played little role in decision making.  
+- Watershed prioritization is simply the first step. More detailed analyses are needed for site-scale design.  
+- The temporal scale of watershed planning is long-term, so we need to arm decision-makers with general targets and ranges of effort (not just a hit list of projects). 
+
+
+# **Acknowledgements**
+
+This project was supported by the Tulsa District of the U.S. Army Corps of Engineers (USACE) and the Conway Corporation, under the direction of Sarah Austin, USACE’s Project Manager. Other agencies and organizations advised on the development of the watershed management plan, including the US Department of Agriculture, Conway County Regional Water Distribution District, and the Arkansas Department of Agriculture. Additionally, watershed residents and stakeholders provided input through a series of public meetings, and their input is gratefully acknowledged. This paper presents parts of the overall watershed study, and the results do not necessarily represent the outcomes of the USACE project planning process, which are available from the [USACE Tulsa District](https://www.swt.usace.army.mil/). The opinions expressed here are those of the authors and not necessarily those of the USACE, Conway Corporation, Woolpert, or Black & Veatch. 
+
+# **References**
+
+**Insert more when writing begins in earnest**.
+
+Baker, L., Evans-White, M.A. and Entrekin, S., 2018. Basin risk explains patterns of macroinvertebrate community differences across small streams in the Fayetteville Shale, AR. Ecological Indicators, 91, pp.478-489. 
+
+Davis, C.A. 2012. Assessing the impacts of surface water removal for use in natural gas extraction on a watershed level. Master’s Thesis. University of Arkansas.
+
+EJScreen. 2025. Environmental Justice Screening and Mapping Tool (Version 2.3). Public Environmental Data Partners. https://pedp-ejscreen.azurewebsites.net/. Accessed on November 14, 2025.
+
+Gatgash, Z.E. and Sadeghi, S.H., 2023. Prioritization-based management of the watershed using health assessment analysis at sub-watershed scale. Environment, Development and Sustainability, 25(9), pp.9673-9702.
+
+Hart, R.M., 2014. Simulated effects of existing and proposed surface-water impoundments and gas-well pads on streamflow and suspended sediment in the Cypress Creek watershed, Arkansas. Scientific Investigations Report 2014-5057. US Geological Survey.
+
+Hemming, V., Camaclang, A.E., Adams, M.S., Burgman, M., Carbeck, K., Carwardine, J., Chadès, I., Chalifour, L., Converse, S.J., Davidson, L.N. and Garrard, G.E., 2022. An introduction to decision science for conservation. Conservation biology, 36(1), p.e13868.
+
+Hoang, L., Fenner, R.A. and Skenderian, M., 2018. A conceptual approach for evaluating the multiple benefits of urban flood management practices. Journal of Flood Risk Management, 11, pp.S943-S959.
+
+Johnson, E., Austin, B.J., Inlander, E., Gallipeau, C., Evans-White, M.A. and Entrekin, S., 2015. Stream macroinvertebrate communities across a gradient of natural gas development in the Fayetteville Shale. Science of the Total Environment, 530, pp.323-332. 
+
+Lamy, F., Bolte, J., Santelmann, M. and Smith, C., 2002. Development and evaluation of multiple-objective decision-making methods for watershed management planning. Journal of the American Water Resources Association, 38(2), pp.517-529.
+
+Leasure, D.R., Magoulick, D.D. and Longing, S.D., 2016. Natural flow regimes of the Ozark–Ouachita interior highlands region. River Research and Applications, 32(1), pp.18-35.
+
+Lim, K.S. and Lee, D.R., 2009. The spatial MCDA approach for evaluating flood damage reduction alternatives. KSCE Journal of Civil Engineering, 13(5), pp.359-369.
+
+Linkov, I., Loney, D., Cormier, S., Satterstrom, F.K. and Bridges, T., 2009. Weight-of-evidence evaluation in environmental assessment: review of qualitative and quantitative approaches. Science of the Total Environment, 407(19), pp.5199-5205.
+
+Menichino, G.T., Abera, L.E., Rickey Jr, T.W., Phillips, S.P. and McKay, S.K., 2025. A Phased Approach to Urban Stream Restoration Decision-Making in Utoy Creek, Atlanta, Georgia. Land, 14(3), p.449.
+
+Meerow, S. and Newell, J.P., 2017. Spatial planning for multifunctional green infrastructure: Growing resilience in Detroit. Landscape and urban planning, 159, pp.62-75.
+
+Newbold, S.C., 2002. Integrated modeling for watershed management: Multiple objectives and spatial effects. Journal of the American Water Resources Association, 38(2), pp.341-353.
+
+Santeford, L.G. and Martin., W. 1980. The Conway water supply: Results of archeological survey and testing and a historical survey of a proposed reservoir area in Conway County, Arkansas. Project Number 340, Arkansas Archeological Survey, Fayetteville, Arkansas. 
+
+Vercruysse, K., Dawson, D.A., Glenis, V., Bertsch, R., Wright, N. and Kilsby, C., 2019. Developing spatial prioritization criteria for integrated urban flood management based on a source-to-impact flood analysis. Journal of Hydrology, 578, p.124038.
+
+Woods A.J., Foti, T.L., Chapman, S.S., Omernik, J.M., Wise, J.A., Murray, E.O., Prior, W.L., Pagan, J.B., Jr., Comstock, J.A., and Radford, M., 2004, Ecoregions of Arkansas (color poster with map, descriptive text, summary tables, and photographs): Reston, Virginia, U.S. Geological Survey (map scale 1:1,000,000).
+
+Yaryan Hall, H.R. and Bledsoe, B.P., 2023. Integrated urban riverscape planning: Spatial prioritization for environmental equity. ASCE OPEN: Multidisciplinary Journal of Civil Engineering, 1, p.04023004.
