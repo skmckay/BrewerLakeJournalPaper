@@ -1,0 +1,318 @@
+---
+title: 'Visualizing Outcomes of the Brewer Lake Watershed Study'
+author: "S. Kyle McKay"
+date: "July 2025"
+output:
+  word_document:
+    toc: yes
+    toc_depth: '5'
+  html_document:
+    toc: yes
+    toc_depth: 5
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+---
+
+
+```{r options, include=FALSE}
+#Markdown options
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message = FALSE) 
+
+##########
+#Clear local memory
+rm(list=ls(all=TRUE))
+
+##########
+#Load R package containing color palette
+library(viridis)
+
+#Load R package containing rose diagram using base R
+#library(CircStats)
+
+#Load R package containing lots of plotting commands
+library(ggplot2)
+library(forcats)
+library(gridExtra)
+```
+
+# **Report Purpose**
+
+The U.S. Army Corps of Engineers (USACE) and the Conway Corporation have initiated a watershed assessment study for the Brewer Lake watershed in central Arkansas. Black & Veatch and Woolpert are jointly conducting the technical analyses for this study, which involves compiling diverse lines of evidence related to watershed condition based on analyses such as watershed modeling, ecological data compilation, and geospatial analysis. However, these analyses produce outcomes that are challenging to compare and trade-off due to inconsistent units (e.g., streamflow metrics vs. nutrient load vs. probability of harmful algal blooms) and different baseline conditions across processes (e.g., "poor" phosphorous loading vs. "good" fish diversity). An approach is needed for synthesizing these findings into a succinct format to communicate the overarching status of the watershed. This report outlines potential methods for synthesizing findings into a series of tables and/or figures for effective communication with the USACE, Conway Corporation, and other stakeholders.
+
+
+Many examples of these types of synthesis outcomes exist, some of which include:  
+
+- **Report-card-style syntheses** with many factors rolling into a single data dashboard or summary index. Some of the more prominent examples include [Puget Sound's vital signs project](https://vitalsigns.pugetsoundinfo.wa.gov/), the [Mississippi River watershed report card](https://americaswatershed.org/reportcard/), and the [Chesapeake Bay's EcoHealth Report Card](https://ecoreportcard.org/report-cards/chesapeake-bay/).  
+- **Development of condition indices** that unite multiple indicator metrics into an overarching habitat suitability metric (e.g., the US Fish and Wildlife Service "blue books"), ecosystem condition indices (e.g., the USACE's Hydrogeomorphic Method of wetland assessment), or other consistent scale for comparison (e.g., the Stream Visual Assessment Protocol's arbitrary points scale).  
+- **Traceable accounts** that link quantitative data through qualitative lines of evidence such as those used in the National Climate Assessment.  
+- **Trade-off diagrams** that use condition assessments to quantify effects of management actions, link to cost estimates, and inform decision-making, which are common in USACE restoration projects like [Utoy Creek in Atlanta, Georgia](https://usace-wrises.github.io/UtoyDecisions/).  
+
+Regardless of the overarching approach, a key component to synthesizing watershed condition will be to identify specific, measurable watershed management objectives. These objectives could blend technical concerns (e.g., ecological effects of hydrologic change) and stakeholder concerns (e.g., probability of harmful algal blooms in Brewer Lake). These objectives can be nested together in a hierarchy linking overarching goals with more specific outcomes. For instance, Brewer Lake objectives could be structured into a hierarchy like the following example:  
+
+- **Hydrology**. Minimize deviation of the riverine flow regime from regionally appropriate conditions.  
+    + *HSPF1*. Insert sub-objective related to a dimension of the flow regime (e.g., high magnitude events) and linking to a specific, measurable metric (e.g., peak discharge of a 2-year return interval / a reference hydrologic outcomes like a 2-year flow from StreamStats).  
+    + *HSPF2*. Insert sub-objective like baseflow.  
+    + *HSPF3*. Insert sub-objective related to Arkansas eflow metrics ([Leasure et al. 2016](https://onlinelibrary.wiley.com/doi/abs/10.1002/rra.2838)).  
+    + *HSPF4*. Insert sub-objective like minimum flow threshold from state withdrawal regulations.  
+- **Water Quality**. Maintain water quality above state-specified thresholds.  
+    + *Sediment*. Insert sub-objective about sediment loading to the lake (maybe a metric from HSPF?).  
+    + *Nitrogen*. Insert sub-objective about nitrogen loading to the lake (maybe a metric from HSPF?).  
+    + *Phosphorous*. Insert sub-objective about phosphorous loading to the lake (maybe a metric from HSPF?).  
+- **Biodiversity**. Foster watershed conditions that provide for a biodiverse aquatic and riparian community.  
+    + *Fish*. Insert sub-objective.  
+    + *Benthic Macro-Invertebrates*. Insert sub-objective.  
+    + *Riparian Condition*. Insert sub-objective.  
+- **Lake**. Avoid undesirable outcomes within Brewer Lake.  
+    + *HABs*. Insert sub-objective related to avoiding HABs or reducing the probability/frequency of events.  
+    + *Aesthetics*. Insert sub-objective about the beauty of the lake for residents.  
+    + *Water Supply*. Insert sub-objective about water supply resilience.  
+- **Social Outcomes**. Create conditions that meet community goals for long-term sustainability and intergenerational heritage. 
+    + *Preference*. Insert sub-objective about preferential uses of the watershed.  
+    + *Acquisitions*. Insert sub-objective about land ownership and access.  
+    + *Recreation*. Insert sub-objective about aquatic and riparian recreation uses.  
+
+After agreeing on the focal outcomes, a major challenge to encounter will involve creating a consistent basis of comparison for these diverse metrics. [McKay et al. (2012)](https://erdc-library.erdc.dren.mil/bitstream/11681/3930/8/ERDC-TN-EMRRP-EBA-16.pdf) offer a variety of methods for normalizing outcomes to a consistent scale (e.g., 0 to 1), converting to consistent units (e.g., dollars), or combining through multi-criteria decision analysis. For the purpose of this report, it is assumed that all metrics can be placed on a consistent 0 to 5 scale for comparison, and Table 1 presents hypothetical data for the objectives identified above for both an existing condition as well as a management scenario. **Notably, no project data were used in this report, and all outcomes are hypothetical and purely for discussion purposes**. 
+
+
+```{r}
+#Specify a hypothetical data set as a data frame
+brewer <- list(Category=NA, Metric=NA, ExCond=NA, MgmtScen=NA, Color=NA)
+
+brewer$Category <- c("Hydrology", "Hydrology", "Hydrology", "Hydrology", 
+                     "WQ", "WQ", "WQ", 
+                     "Biodiversity", "Biodiversity", "Biodiversity", 
+                     "Lake", "Lake", "Lake", 
+                     "Social", "Social", "Social")
+
+brewer$Metric <- c("HSPF1", "HSPF2", "HSPF3", "HSPF4", 
+                     "Sediment", "Nitrogen", "Phosphorous", 
+                     "Fish", "Inverts", "Riparian", 
+                     "HABs", "Aesthetics", "WaterSupply", 
+                     "Preferences", "Acquisitions", "Recreation")
+
+brewer$ExCond <- c(3,1,2,4,
+                   3,2,1,
+                   3,3,3,
+                   4,4,5,
+                   4,4,2)
+
+brewer$MgmtScen <- c(4,4,3,5,
+                   4,4,2,
+                   3,4,5,
+                   4,5,5,
+                   4,3,3)
+
+brewer$Color <- c(viridis(5)[1], viridis(5)[1], viridis(5)[1], viridis(5)[1],
+                  viridis(5)[2], viridis(5)[2], viridis(5)[2],
+                  viridis(5)[3], viridis(5)[3], viridis(5)[3],
+                  viridis(5)[4], viridis(5)[4], viridis(5)[4],
+                  viridis(5)[5], viridis(5)[5], viridis(5)[5])
+
+#Create a data frame from this list
+brewer.df <- as.data.frame(brewer)
+
+#Send output table for the Brewer Lake outcomes
+knitr::kable(brewer.df[,1:4], caption="Table 1. Hypothetical output data from Brewer Lake Watershed assessment.", align="c") 
+```
+
+
+
+# **Exploring Data Summaries**
+
+
+## *Bar Chart*
+
+Assuming metrics are on a consistent scale, a variety of data visualization methods could be used to condense information for decision-makers. A straightforward method would be using a bar plot of all outcomes with the following advantages, disadvantages, and notes on usage.  
+
+- Bar plots will be familiar to stakeholders and have a low barrier to entry.  
+- Data can be color-coded to aggregate findings for overarching objectives (e.g., hydrology vs. water quality).  
+- Consistent frames of reference could be easily added to this figure like a goal specified by stakeholders, which provide a means of understanding the gap between existing and desired conditions. 
+
+
+
+```{r fig.height = 6, fig.width =6}
+#OLD CODE for constructing a bar plot with base R
+#Plot settings for turning axis labels and setting margins
+#par(las=2, mar=c(6,3,1,1))
+#barplot(height=brewer$ExCond, names=brewer$Metric,
+#        col=brewer$Color, 
+#        main="", ylab="Qualitative Output")
+#box()
+
+##########
+#Construct a bar plot with ggplot based on the brewer data frame
+#fct_inorder reorders the data set to match the original (rather than alphabetically)
+ggplot(data=brewer.df, aes(x=fct_inorder(Metric), y=ExCond)) +
+  #Add bar plot
+  geom_bar(stat = "identity", fill=brewer.df$Color, col="black") + 
+  #Turn axis labels
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+  #Add axis titles
+  xlab("") + ylab("Qualitative Output")
+
+```
+
+
+## *Rose Diagram*
+
+An alternative approach would be to use a "rose diagram" as a visual summary, which aligns with methods advocated by the Society of Ecological Restoration using their so-called ["recovery wheel"](https://www.ser.org/page/sernews3113). This method is also has notable advantages and disadvantages.  
+
+- Rose diagrams will be less familiar to many stakeholders, but that novelty can be an asset in terms of being more "eye catching" or intriguing.  
+- Rose diagrams display smaller area for lower condition, which draws attention to gaps between current and desired states.  
+- These figures draw attention to disparities between process by making some outcomes look "lop-sided" such as the difference between water quality and lake outcomes in the example figure. 
+
+
+```{r fig.height = 6, fig.width =6}
+#Construct a circular bar plot with ggplot
+#Help: https://r-graph-gallery.com/web-circular-barplot-with-R-and-ggplot2.html
+
+#Open the ggplot dialog based on the brewer data frame
+#fct_inorder reorders the data set to match the original (rather than alphabetically)
+brewer.ExCond <- ggplot(data=brewer.df, aes(x=fct_inorder(Metric), y=ExCond)) +
+  
+  #Make custom panel grid
+  geom_hline(aes(yintercept = y), data.frame(y = c(0:5)), color = "darkgrey") +
+  
+  #Add bars 
+  geom_col(aes(x=fct_inorder(Metric), y=ExCond), col="black", fill = brewer$Color, alpha=0.8, show.legend = FALSE) +
+  
+  #Change ylimits
+  ylim(0,5) +
+
+  #Move to circular coordinate system
+  coord_polar() + 
+  
+  #Annotate figure with output levels
+    annotate(x=0, y=1, label="1", geom="text", cex=8, fontface=2) +
+    annotate(x=0, y=2, label="2", geom="text", cex=8, fontface=2) +
+    annotate(x=0, y=3, label="3", geom="text", cex=8, fontface=2) +
+    annotate(x=0, y=4, label="4", geom="text", cex=8, fontface=2) +
+    annotate(x=0, y=5, label="5", geom="text", cex=8, fontface=2) +
+  
+  #Annotate figure with output categories?
+    #annotate(x=2.5, y=5, label="Hydrology", geom="text", angle = -60, cex=8, fontface=2) +
+  
+  #Add lines breaking the categories of outputs
+    geom_vline(aes(xintercept = 0), linewidth=1.5) +
+    geom_vline(aes(xintercept = 4.5), linewidth=1.5) +
+    geom_vline(aes(xintercept = 7.5), linewidth=1.5) +
+    geom_vline(aes(xintercept = 10.5), linewidth=1.5) +
+    geom_vline(aes(xintercept = 13.5), linewidth=1.5) +
+
+  #Add and modify chart elements
+    #remove axis ticks and text
+    theme(axis.title = element_blank(), axis.ticks = element_blank(),axis.text.y = element_blank()) +
+    #change background color to white
+    theme(panel.background = element_rect(fill = "white", color = "white")) + 
+    #remove extra grid lines
+    theme(panel.grid = element_blank(), panel.grid.major.x = element_blank()) 
+
+#Render the figure 
+brewer.ExCond
+```
+
+
+# **Scenario Planning Options**
+
+
+The prior figures emphasize the existing condition or provide a snapshot of watershed status. However, they do not speak to the efficacy of proposed management actions. The following figures provide alternative means of making this comparison.
+
+The most straightforward method would involve replicating a plot type for the current and desired state. This technique is advantageous in the sense of there is little learning curve, and it seizes on familiarity. However, these side-by-side plots can be challenging to compare for multiple metrics.
+
+
+```{r fig.height = 6, fig.width =12}
+#CREATE A PLOT FOR MANAGEMENT SCENARIOS
+
+##########
+#Construct a circular bar plot with ggplot
+#Help: https://r-graph-gallery.com/web-circular-barplot-with-R-and-ggplot2.html
+
+#Open the ggplot dialog based on the brewer data frame
+#fct_inorder reorders the data set to match the original (rather than alphabetically)
+brewer.MgmtScen <- ggplot(data=brewer.df, aes(x=fct_inorder(Metric), y=MgmtScen)) +
+  
+  #Make custom panel grid
+  geom_hline(aes(yintercept = y), data.frame(y = c(0:5)), color = "darkgrey") +
+  
+  #Add bars 
+  geom_col(aes(x=fct_inorder(Metric), y=MgmtScen), col="black", fill = brewer$Color, alpha=0.8, show.legend = FALSE) +
+  
+  #Change ylimits
+  ylim(0,5) +
+
+  #Move to circular coordinate system
+  coord_polar() + 
+  
+  #Annotate figure with output levels
+    annotate(x=0, y=1, label="1", geom="text", cex=8, fontface=2) +
+    annotate(x=0, y=2, label="2", geom="text", cex=8, fontface=2) +
+    annotate(x=0, y=3, label="3", geom="text", cex=8, fontface=2) +
+    annotate(x=0, y=4, label="4", geom="text", cex=8, fontface=2) +
+    annotate(x=0, y=5, label="5", geom="text", cex=8, fontface=2) +
+  
+  #Annotate figure with output categories?
+    #annotate(x=2.5, y=5, label="Hydrology", geom="text", angle = -60, cex=8, fontface=2) +
+  
+  #Add lines breaking the categories of outputs
+    geom_vline(aes(xintercept = 0), linewidth=1.5) +
+    geom_vline(aes(xintercept = 4.5), linewidth=1.5) +
+    geom_vline(aes(xintercept = 7.5), linewidth=1.5) +
+    geom_vline(aes(xintercept = 10.5), linewidth=1.5) +
+    geom_vline(aes(xintercept = 13.5), linewidth=1.5) +
+
+  #Add and modify chart elements
+    #remove axis ticks and text
+    theme(axis.title = element_blank(), axis.ticks = element_blank(),axis.text.y = element_blank()) +
+    #change background color to white
+    theme(panel.background = element_rect(fill = "white", color = "white")) + 
+    #remove extra grid lines
+    theme(panel.grid = element_blank(), panel.grid.major.x = element_blank()) 
+
+##########
+#Render the figure 
+grid.arrange(brewer.ExCond + ggtitle("Existing Condition"),
+             brewer.MgmtScen + ggtitle("Management Scenario"), 
+             nrow = 1, ncol=2)
+```
+
+The following represent two options where the current and desired state are embedded in the same figure, and the two visualizations provide different mechanisms for displaying these data. In the first, the management scenarios is shown as a simple data point showing how each process would benefit (or be harmed) by alternative management actions. The second figure extends the rose diagram to for categories with benefits, but masks negative changes (e.g., to acquisitions).
+
+```{r fig.height = 6, fig.width =12}
+#Add features to the prior plot reflecting management scenarios
+brewer.Mgmt.points <- brewer.ExCond + 
+  #Add data points reflecting management
+  geom_point(aes(x=fct_inorder(Metric), y=MgmtScen), size = 3, color = "gray12")
+
+##########
+#Add features to the prior plot reflecting management scenarios
+brewer.Mgmt.poly <- brewer.ExCond + 
+  #Add data points reflecting management
+  geom_col(aes(x=fct_inorder(Metric), y=MgmtScen), col="black", fill = brewer$Color, alpha=0.1, show.legend = FALSE)
+
+##########
+#Render the figure 
+grid.arrange(brewer.Mgmt.points + ggtitle("Points added to reflect management"),
+             brewer.Mgmt.poly + ggtitle("Polygons extended to reflect management"), 
+             nrow = 1, ncol=2)
+```
+
+
+# **Scenario Planning Options**
+
+Notably, these methods could all be applied in a spatially distributed format to address different conditions in sub-watersheds across the basin. The following example provides a summary of nine sub-watersheds for the purpose of looking for sub-basins to target management actions.  
+
+```{r fig.height = 12, fig.width =12}
+#Render the figure 
+grid.arrange(brewer.ExCond + ggtitle("Sub-watershed A"), 
+             brewer.ExCond + ggtitle("Sub-watershed B"),
+             brewer.ExCond + ggtitle("Sub-watershed C"),
+             brewer.ExCond + ggtitle("Sub-watershed D"), 
+             brewer.ExCond + ggtitle("Sub-watershed E"),
+             brewer.ExCond + ggtitle("Sub-watershed F"),
+             brewer.ExCond + ggtitle("Sub-watershed H"), 
+             brewer.ExCond + ggtitle("Sub-watershed I"),
+             brewer.ExCond + ggtitle("Sub-watershed J"),
+             nrow = 3, ncol=3)
+
+```
