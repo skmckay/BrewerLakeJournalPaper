@@ -3,15 +3,15 @@ title: 'Aligning multiple methods to inform planning decisions in the Brewer Lak
 author: "Michael Long, Julianna Hunter, Julia Ruff, Maya Burns, Drew Ackerman, and S. Kyle McKay"
 date: "January 2026"
 output:
+  word_document:
+    toc: no
+    toc_depth: '5'
   html_document:
     toc: yes
     toc_depth: 5
     toc_float:
       collapsed: no
       smooth_scroll: yes
-  word_document:
-    toc: no
-    toc_depth: '5'
 ---
 
 
@@ -45,33 +45,41 @@ This document is a working draft of a journal paper summarizing the Brewer Lake 
 
 # **Abstract**
 
-Insert after the paper is written. A mock-up (i.e., pseudo-sentences) for Brewer Lake might look something like...Watershed assessment is a common management concern AND integrated modeling tools are available to inform understanding of hydrology, sedimentation, ecology, and social outcomes. BUT it is not always clear how to effectively synthesize these lines of evidence to inform decision making. THEREFORE, we demonstrate how weight-of-evidence methods can be applied to integrate diverse types of information and analyses. We present these methods in the context of a watershed study for Brewer Lake in Arkansas, USA. Something specific about the Brewer Lake methods and findings.
+**Insert after the paper is written**. A mock-up (i.e., pseudo-sentences) for Brewer Lake might look something like...Watershed assessment is a common management concern AND integrated modeling tools are available to inform understanding of hydrology, sedimentation, ecology, and social outcomes. BUT it is not always clear how to effectively synthesize these lines of evidence to inform decision making. THEREFORE, we demonstrate how weight-of-evidence methods can be applied to integrate diverse types of information and analyses. We present these methods in the context of a watershed study for Brewer Lake in Arkansas, USA. Something specific about the Brewer Lake methods and findings.
 
 **Keywords**: watershed plan, multi-criteria decision analysis, HSPF, watershed modeling, integrated modeling
 
 
-# **Introduction**
+# **1. Introduction**
 
 A watershed is “the landscape that contributes surface water to a single location, such as a point on a stream or river, or a single wetland, lake or other waterbody” (Flotemersch et al. 2016). Catchments integrate physical, chemical, and biological processes and provide a fundamental unit for analysis of lands and waters (Montgomery et al. 1995), although watersheds may not align with governance issues due to boundary difference, accountability structures, and participatory processes (Cohen and Davidson 2011). Watershed assessments can be driven by large-scale policy goals (e.g., the US Environmental Protection Agency's 319 program, Hanson et al. 2022) as well as local project-scale goals (e.g., stream restoration prioritization, Menchino et al. 2025). However, generally speaking, watershed assessments seek to capture the status and trends of different functional outcomes like landscape condition, geomorphology, hydrology, water quality, habitat, or biological conditions (USEPA 2012). 
 
 Effective watershed management has long acknowledged the need for integrating multiple outcomes and goals (Montgomery 1995, Wang et al. 2016). An integrated assessment approach ultimately facilitates understanding of individual components as well as the integrity of the watershed as a whole (Flotemersch et al. 2016). Modeling tools have not only matured for assessing and forecasting hydrologic and water quality processes (e.g., Shiferaw et al. 2025, Chao et al. 2023) but also ecological and social outcomes (e.g., McKay et al. 2019, Meerow and Newell 2017). To effectively reach decision makers, diverse outcomes need to be synthesized into overarching findings and priorities addressing multiple objectives (Montgomery 1995, Lamy et al. 2002, Newbold 2002). Multi-criteria decision analysis (MCDA) techniques have emerged as particularly useful methods for watershed assessment with synthesis methods reliant on visual summaries (Hoang et al. 2017), spatially distributed methods (Lim and Lee 2009, Yaryan-Hall and Bledsoe 2023), and coupling with optimization methods (Li et al. 2023). 
 
-Multi-criteria watershed assessment is emerging as an important paradigm for navigating trade-offs between diverse objectives; however, additional steps are needed to translate these tools into the diverse contexts in which watershed planning occurs. For instance, many MCDA methods have emphasized the benefits of achieving objectives (e.g., Meerow and Newell 2017, Yaryan-Hall and Bledsoe 2023) rather than challenges of working under constraints like limited financial resources. A focus on objectives without constraints could obscure trade-offs inherent in some watershed management choices (Newbold 2002). Furthermore, while diverse methods exist for comparing lines of evidence (Linkov et al. 2009), many applications focus on use of a single analytical method at the expense of using multiple methods with alternative assumptions or pitfalls. Lastly, watershed assessment exists across a spectrum from preliminary site screening to long-term health monitoring, and MCDA tools are needed that align with these different levels of effort in analysis (Larsen et al. 2016, Harris et al. 2023).
+Multi-criteria watershed assessment is emerging as an important paradigm for navigating trade-offs between diverse objectives; however, tools need to be translated to align with the diverse contexts in which watershed planning occurs. For instance, many MCDA methods have emphasized the benefits of achieving objectives (e.g., Meerow and Newell 2017, Yaryan-Hall and Bledsoe 2023) rather than challenges of working under constraints like limited financial resources or land ownership. A focus on objectives without constraints could obscure trade-offs inherent in some watershed management choices (Newbold 2002). Furthermore, while diverse methods exist for comparing lines of evidence (Linkov et al. 2009), many applications focus on use of a single analytical method at the expense of using multiple methods with alternative assumptions or pitfalls. Lastly, watershed assessment exists across a spectrum from preliminary site screening to long-term health monitoring, and MCDA tools are needed that align with these different levels of analytical effort (Larsen et al. 2016, Harris et al. 2023).
 
-In this paper, we contribute to the growing body of methods using MCDA to inform watershed management. Specifically, our objectives are to (1) incorporate constraints like cost and land use into MCDA frameworks, (2) show how multiple MCDA-based methods can be brought to bear at a single location to increase decision confidence, and (3) demonstrate simple MCDA methods that are aligned with preliminary watershed planning. We present these methods in the context of developing a watershed management plan for the Brewer Lake watershed in Arkansas, USA. The methods and techniques shown here were tailored to our geography and project constraints, and we offer these in the spirit of a case study exploring alternative approaches rather than research into preferred or superior approaches.
+In this paper, we contribute to the growing body of methods using MCDA to inform watershed management. Specifically, our objectives are to (1) incorporate constraints like cost and land ownership into MCDA frameworks, (2) show how multiple MCDA-based methods can be brought to bear at a single location to increase decision confidence, and (3) demonstrate simple MCDA methods that are aligned with preliminary watershed planning. We present these methods in the context of developing a watershed management plan for the Brewer Lake watershed in Arkansas, USA. The methods and techniques shown here were tailored to the geographic and project constraints for this watershed, and we offer these in the spirit of a case study exploring alternative approaches rather than research into preferred or superior approaches.
 
 
-# **Methods**
+# **2. Methods**
 
-Insert overview of this section and the general flow of analyses. Maybe present the analyses as a series of common management questions for watershed studies?
+Many stepwise processes have been proposed for developing watershed management plans centered on general land management concerns (e.g., Montgomery et al. 1995), pollutant load reduction (e.g., USEPA 2008), integrated assessment (e.g., USEPA 2012), and shared visioning with stakeholders (e.g., USACE 2022). These processes share commonalities in the steps and generally include topics like building context, setting objectives, understanding the status and trends of watershed condition, identifying effective management actions, and informing decisions. Here, we draw from each of these frameworks and take a question-centric approach to watershed planning. Specifically, our analysis focuses on six overarching questions, which then structure the subsequent methods and results sections.  
 
-## *Brewer Lake Watershed*
+- *What is the context for this watershed (Section 2.1)*? Watersheds are complex social-ecological-technical systems with many interacting components and processes (McPhearson et al. 2021). Effective watershed management require understanding these dimensions of the system as well as how they have changed through time.  
+- *What are the objectives and constraints for this planning process (Section 2.2)*? Management actions can only be prioritized with a clear understanding the the problems, opportunities, objectives, and constraints (USACE 2022). For instance, different actions could be identified as preferable relative to sediment load reduction and recreational access. Similarly, project constraints arise from issues like land ownership, jurisdictional limits, and site access (USEPA 2008), and analytical constraints related to model complexity, tolerable uncertainty, time, and available resource drive choices about the level of effort for a given analysis (Harris et al. 2023).  
+- *What numerical targets are feasible and realistic (Section 2.3)*? Objective setting often leads to laudably ambitious goals, but numerical targets are sometimes set at unattainable levels from a technical perspective. Watershed planning sometimes requires preliminary analyses to avoid miscommunication and the potential for a gap between ambition and reality.  
+- *What is the status and trends of key watershed properties (Section 2.4)*? Objective setting identifies outcomes that are important to watershed stakeholders, which may then be modeled or monitored over time to understand the condition and trajectory of the watershed.  
+- *What areas are priorities for management actions (Section 2.5)*? Specific parts of the watershed (e.g., smaller catchments, project sites) may then be prioritized relative to the condition assessment and goals. These locations are often identified based on "problem areas", site feasibility (i.e., "low hanging fruit"), land ownership, and other factors, which may then be compared with a variety of techniques.  
+- *How do prioritized activities contribute to overarching goals (Section 2.6)*? Many watershed studies prioritize actions in a small portion of the watershed, but there is often a need to revisit watershed objectives as a whole to understand the importance of these smaller scale actions at a larger scale (Menichino et al. 2025).
+
+
+## *2.1. Brewer Lake Watershed*
 
 Brewer Lake is located in central Arkansas within the Arkansas Valley ecoregion, a transitional zone between the Ozark Mountains to the north and the Ouachita Mountains to the south. In 1983, the Brewer Lake reservoir was completed and is fed by Cypress Creek, which drains a 36 mi^2^ watershed (HUC boundary 111102050201). The reservoir serves as the primary drinking water supply for the city of Conway, and this municipal water supply reservoir provides the main context for this watershed study. 
 
-The high ridge slopes and moderate valley slopes of the Cypress Creek watershed make it representative of the broader Arkansas Valley physiographic province in which is resides (Hart 2014). Soils are predominantly sandy loam and silty loam with good drainage in the hydrologic soil groups C, C/D, and D. The climate is humid subtropical with hot, humid summers and mild winters. Average annual rainfall is 58 inches (NLDAS) with higher amounts in spring (5-7 inches per month) and lower amounts in summer and fall (3-5 inches per month). Average annual streamflow is 32 cfs (USGS Streamflow Gauge No. 07261090) with peak flows of more than 16,500 cfs, although zero flow periods can also extend for months (Santeford and Martin 1980). These hydrographic patterns are consistent with the intermittent flashy and intermittent runoff flow regimes characteristic of regional rivers (Leasure et al. 2016). Historically, the Arkansas Valley Hills ecoregion (EPA Level IV, Woods et al. 2004) would have included oak-hickory forest or oak-hickory-pine forest, and significant portions of the watershed remain as second- or third-growth deciduous forest, although evergreen forest and pasture are now common land uses as well (Hart 2014). Based on the 2020 census, population density is relatively low in the watershed with 36.5 residents per mi^2^ (96 residents per mi^2^ nationwide), and residents experience higher rates of poverty and unemployment than state averages (EJScreen 2025). 
+The high ridge slopes and moderate valley slopes of the Cypress Creek watershed make it representative of the broader Arkansas Valley physiographic province in which it resides (Hart 2014). Soils are predominantly sandy loam and silty loam with good drainage in the hydrologic soil groups C, C/D, and D. The climate is humid subtropical with hot, humid summers and mild winters. Average annual rainfall is 58 inches (NLDAS) with higher amounts in spring (5-7 inches per month) and lower amounts in summer and fall (3-5 inches per month). Average annual streamflow is 32 cfs (USGS Streamflow Gauge No. 07261090) with peak flows of more than 16,500 cfs, although zero flow periods can also extend for months (Santeford and Martin 1980). These hydrographic patterns are consistent with the intermittent flashy and intermittent runoff flow regimes characteristic of regional rivers (Leasure et al. 2016). Historically, the Arkansas Valley Hills ecoregion (EPA Level IV, Woods et al. 2004) would have included oak-hickory forest or oak-hickory-pine forest, and significant portions of the watershed remain as second- or third-growth deciduous forest, although evergreen forest and pasture are now common land uses as well (Hart 2014). Based on the 2020 census, population density is relatively low in the watershed with 36.5 residents per mi^2^ (96 residents per mi^2^ nationwide), and residents experience higher rates of poverty and unemployment than state averages (EJScreen 2025). 
 
-Watershed land use reflects the long history of occupation in the catchment as well as the low population density (Figure 1). Based on the 2021 National Land Cover Database, the major land use remains forest (45%), although the forest types now include deciduous, evergreen, mixed, and shrub/scrub systems. The second most common land use is pasture (42%), although the predominant agricultural effects stem from confined animal feeding operations like poultry houses. Urban land uses are isolated (7%), and residents rely primarily on septic tanks for wastewater management. Road networks are also limited, although a significant extent of unpaved roads may be important sediment sources (**XXX**, personal communication). Oil extraction using hydraulic fracturing (i.e., “fracking”) has increased across the entire Arkansas River Valley ecoregion (Baker et al. 2018), including the Cypress Valley watershed (Hart 2015), with potential impacts of these activities on water availability (Davis 2012) and stream biota (Johnson et al. 2015). Notably, riparian areas in the watershed remain relatively intact with 62% of area within 100-ft of streams in forested land uses. 
+Watershed land use reflects the long history of development as well as the low population density (Figure 1). Based on the 2021 National Land Cover Database, the major land use remains forest (45%), although forest types now include deciduous, evergreen, mixed, and shrub/scrub systems. The second most common land use is pasture (42%) with predominant agricultural effects stemming from confined animal feeding operations like poultry houses. Urban land uses are isolated (7%), and residents rely primarily on septic tanks for wastewater management. Road networks are also limited, although a significant extent of unpaved roads may be important sediment sources (**XXX**, personal communication). Oil extraction using hydraulic fracturing (i.e., “fracking”) has increased across the entire Arkansas River Valley ecoregion (Baker et al. 2018), including the Cypress Valley watershed (Hart 2014), with potential impacts of these activities on water availability (Davis 2012) and stream biota (Johnson et al. 2015). Notably, riparian areas in the watershed remain relatively intact with 62% of area within 100-ft of streams in forested land uses. 
 
 ```{r fig.cap="Figure 1. Brewer Lake watershed land use and potential sources of water quality degradation (i.e., septic systems, poultry houses, and hydraulic fracturing extraction sites)"}
 #Insert a figure summarizing Brewer Lake land use and management challenges
@@ -79,16 +87,21 @@ Watershed land use reflects the long history of occupation in the catchment as w
 knitr::include_graphics("01_BrewerLakeWatershedMap.png")
 ```
 
-Brewer Lake was completed in 1983 through a partnership between the U.S. Army Corps of Engineers and the Conway Corporation, based on authorization from the Water Resources Development Act of 1974 (PL93-251, Title 1, Sec. 10). The primary purpose of the 28,500 acre-foot reservoir is water supply for over 70,000 residents in the city of Conway as well as nearby counties, although the lake is also used for fishing and recreation. Water quality changes can occur with land use change, and sediment, nitrogen, and phosphorous inputs to the lake are a particular focus for reservoir managers because of both drinking water requirements as well as secondary outcomes like harmful algal blooms (HABs) and reduced reservoir life span (**XXX**, personal observation). In the fall of 2020, a cyanobacterial bloom was observed intermittently, indicating a broader potential for water quality threats to this important drinking water source.
+Brewer Lake was completed in 1983 through a partnership between the U.S. Army Corps of Engineers and the Conway Corporation, based on authorization from the Water Resources Development Act of 1974 (PL93-251, Title 1, Sec. 10). The primary purpose of the 28,500 acre-foot reservoir is water supply for over 70,000 residents in the city of Conway as well as nearby counties, although the lake is also used for fishing and recreation. Water quality changes can occur with land use change, and sediment, nitrogen, and phosphorous inputs to the lake are a particular focus for reservoir managers because of both drinking water requirements as well as secondary outcomes like harmful algal blooms and reduced reservoir life span (Mark Ferguson, Conway Corporation, personal observation). In the fall of 2020, a cyanobacterial bloom was observed intermittently, indicating a broader potential for water quality threats to this important drinking water source (Matthew Schroeder, Arkansas Game and Fish Commission, personal observation).
 
-## *Watershed Planning Process*
+## *2.2. Watershed Planning Process*
 
-**Items to cover in this section**.  
+(**Michael, I need your help here**).  
 
-- Motivation for the study. USACE watershed study, Conway management, EPA 319 process.  
-- Problems and objectives.  
-- Stakeholder engagement.
-- Primary vs. secondary objectives (Table 1). 
+This study was conducted under a partnership between the U.S. Army Corps of Engineers and the Conway Corporation to develop a long-term vision for the watershed, identify preliminary management actions, and align opportunities with potential funding sources (e.g., USEPA's 319 program, state grants). The study was conducted under an 18 month timeline with oversight from these entities as well as a technical advisory body with representatives from other federal and state agencies. While broader watershed goals were considered, the primary motivations center on the missions of these entities. 
+
+A description of local problems and overarching management goals provided the foundation for data compilation, analyses, diagnosis of underlying stressors, and helped guide selection of management actions (USEPA 2008, USACE 2022). The process of problem identification and goal setting is a key opportunity for incorporating stakeholders in ecosystem management writ large (Dillard et al. 2021) and developing watershed plans specifically (USEPA 2008). Public participation exists on a large spectrum from  informing citizens of activities to empowering stakeholders in decision-making processes (IAP2 2018). For this study, stakeholders were involved through outreach activities to ensure that their concerns and aspirations were understood, considered, and reflected in the watershed plan. Biweekly progress meetings were conducted from October 2024 to December 2025 with technical stakeholders from Conway Corporation, federal agencies (USACE, NRCS, etc.), and the Arkansas Department of Agriculture. Additionally, the experiences of watershed residents, lake users, and other members of the public were incorporated through two facilitated public meetings (May 2025 and January 2026) and a public website. 
+
+Three primary problem statements were synthesized from stakeholder input, subsequent technical analyses, and prior scientific studies in the watershed (e.g., Hart 2014). First, Brewer Lake provides municipal water supply for 70,000 residents, and both Conway Corporation and local residents want to ensure the security, resilience, and sustainability of this resource. Second, water quality is a growing concern among both lake managers and residents. On short time scales, this manifests as increasing nutrient loads and associated increases in water treatment cost for Conway Corporation. On longer time scales, sediment and nutrient delivery have the potential to reduce storage volume or increase the likelihood of algal blooms. Third, watershed residents expressed a desire to preserve the ecological integrity and beauty of this minimally developed landscape as a legacy of opportunities for future generations. A key constraint was identified as a a desire to avoid infringing on local property owners (e.g., through takings or regulation) in a watershed with almost exclusively private land ownership. 
+
+The overarching goal for the watershed management plan was to identify a set of management actions and priority locations that help the community protect the watershed as a multi-generational asset and Conway Corporation secure a sustainable water supply. This vision sets the general trajectory for the watershed plan as a whole, but more refined objectives were needed to assess the relative merits of management activities (Table 2). The specific objectives for the watershed management plan center on nitrogen, phosphorous, and sediment as indicators of riverine water quality and sustainability of the water supply from the lake. Indicator metrics were selected for each objective with an emphasis on capturing large-scale and long-term trends. 
+
+While the primary objectives centered on water quality, stakeholders expressed other areas of concern and interest in outcomes of watershed management. These secondary or ancillary objectives are not the focus of watershed management practices, so they will not be address here. However, these outcomes are important to track and communicate in the context of the broader vision for the watershed. 
 
 ```{r echo=FALSE}
 #Create empty table
@@ -97,9 +110,9 @@ colnames(Table01) <- c("Objectives", "Indicators", "Targets")
 
 #Specify rows of the table
 Table01[1,] <- c("PRIMARY OBJECTIVES", "", "")
-Table01[2,] <- c("Reduce sediment loading with the implicit goals of minimizing riverine embeddedness, minimizing reservoir sedimentation, and reducing phosphorous delivery", "Average annual sediment yield (lb/ac/yr) at the outlet of each of 26 sub- catchments", "15% reduction in annual load at the inlet to Brewer Lake based on a 2009-2023 baseline")
-Table01[3,] <- c("Reduce nitrogen loading with the assumption that Brewer Lake algal blooms are nitrogen limited", "Average annual delivery of total nitrogen (lb/ac/yr) at the outlet of each of 26 sub-catchments", "15% reduction in annual load at the inlet to Brewer Lake based on a 2009-2023 baseline")
-Table01[4,] <- c("Reduce phosphorous loading to Brewer Lake to minimize long-term nutrient storage and eutrophication", "Average annual delivery of total phosphorous (lb/ac/yr) at the outlet of each of 26 sub- catchments", "15% reduction in annual load at the inlet to Brewer Lake based on a 2009-2023 baseline")
+Table01[2,] <- c("Reduce sediment loading with the implicit goals of minimizing riverine embeddedness, minimizing reservoir sedimentation, and reducing phosphorous delivery", "Average annual sediment yield (lb/ac/yr) at the outlet of each of 26 catchments", "15% reduction in annual load at the inlet to Brewer Lake based on a 2009-2023 baseline")
+Table01[3,] <- c("Reduce nitrogen loading with the assumption that Brewer Lake algal blooms are nitrogen limited", "Average annual delivery of total nitrogen (lb/ac/yr) at the outlet of each of 26 catchments", "15% reduction in annual load at the inlet to Brewer Lake based on a 2009-2023 baseline")
+Table01[4,] <- c("Reduce phosphorous loading to Brewer Lake to minimize long-term nutrient storage and eutrophication", "Average annual delivery of total phosphorous (lb/ac/yr) at the outlet of each of 26 catchments", "15% reduction in annual load at the inlet to Brewer Lake based on a 2009-2023 baseline")
 Table01[5,] <- c("SECONDARY OBJECTIVES", "", "")
 Table01[6,] <- c("Maximize drought resilience", "Qualitative assessment", "none")
 Table01[7,] <- c("Facilitate resident enjoyment", "Qualitative assessment", "none")
@@ -111,13 +124,21 @@ rownames(Table01) <- NULL
 knitr::kable(Table01, caption="Table 1. Objectives, indicators, and targets for the Brewer Lake watershed management plan.", align="c") 
 ```
 
-## *Exploratory Assessment of Management Actions*
+## *2.3. Exploratory Assessment of Feasible Targets*
 
-**Items to cover in this section**.  
+(**Looking for Maya's help here.**)  
 
-- Can watershed management feasibly affect the desired outcomes?  
-- What management actions are appropriate? Which oneswere considered? Combinations of actions into scenarios.  
-- Exploration of the feasibility of the pollutant reduction targets using PLET. 
+A numeric target or threshold for each indicator helps judge the relative success of watershed management actions in achieving the objectives. However, numerical targets are challenging to develop without technical information on feasibility in a specific geography. Initial targets were developed qualitatively and then confirmed using simple modeling exercises.
+
+The technical advisory team established the initial numerical targets. The 2020 algal bloom in Brewer Lake was identified as an undesirable outcome by the technical stakeholder advisory group, and a general preference was identified for reducing nitrogen, phosphorous, and sediment loading to the reservoir. Load reductions were judged relative to a baseline of 2009-2023, which represents a recent period in which algal blooms were infrequent, short duration, or low consequence. A 15% reduction from this baseline was identified based on the technical advisory group’s understanding of what is achievable. This level of reduction was viewed as ambitious but achievable relative to long-term program tracking in other locations with water quality management programs like New York Harbor (HRF 2021) and Chesapeake Bay (Zhang et al. 2023).
+
+These targets were then analyzed using the EPA’s Pollutant Load Estimation Tool (PLET) to estimate removal efficiency of three scenarios of best management practices (BMPs) at the watershed-scale. PLET is a spatially lumped calculator treating the entire watershed as one analytical domain. Land cover serves as the primary driver of removal efficiency in PLET, and the National Land Cover Data Set (NLCD) from 2021 was used to parameterize the model. This model provides a low level of effort for preliminary exploration of feasibility.
+
+Three sets of BMPs were executed in PLET based on the pasture, river, and combined scenarios. The BMP calculator was configured such that similar practices were used in series, and dissimilar practices were used in parallel. All practices were assumed to be applied in series with either grassed or forested riparian buffers due to the well-described efficacy of buffer zones (Ayala-Torres et al. 2025). Area treated by each practice was calculated by dividing the current pasture area evenly into each set of practices. No BMP calculations were performed for urban areas due to its insignificant pollutant load contribution in this watershed. The three exploratory scenarios were:  
+
+- *Pasture BMPs*. This scenario focused  on pasture lands as a key source of sediment and nutrient inputs and includes actions like cattle exclusion, rotational grazing, pasture planting, and alternative water supplies.  
+- *River BMPs*. This scenario focused on actions within river corridors such as riparian buffer enhancement and streambank stabilization. These actions assume that river corridors may provide better alignment for real estate actions (e.g., voluntary programs, incentives, easements, acquisitions), given flooding potential and other regulatory limits (e.g., buffer ordinances).  
+- *Combined BMPs*. This scenario combines the strategies into a single scenario applying both practices.
 
 ```{r}
 #Specify pollutant removal efficiency from PLET
@@ -133,22 +154,22 @@ PLET.colors <- viridis(3)
 ```
 
 
-## *Watershed Modeling*
+## *2.4. Assessing Watershed Condition*
 
-**Items to cover in this section**.  
+(**Looking for Drew's help here.**)  
 
 - Why is watershed modeling needed? Establish baseline conditions, understand sources at locations without data, predict effectiveness of management actions (eventually).  
 - HSPF model setup: inputs, spatial and temporal resolution, calibration, goodness-of-fit.
 - Model application to estimate load for sediment, nitrogen, and phosphorous.
 
 
-## *Prioritization of Catchments*
+## *2.5. Prioritization of Catchments*
 
 The extent of BMP application may be significantly reduced, if actions are placed strategically throughout the watershed in locations with the greatest return-on-investment. This section describes a suite of analyses to identify strategically important catchments for BMP application. The HSPF model used 60 sub-catchments to provide sufficient predictive capability, but this spatial resolution was considered finer scale (**XXX** mi^2^ average size) than needed for management. These sub-catchments were aggregated into 26 larger catchments for prioritization purposes (**XXX** mi^2^ average size), based on slope, soil type, land use, and proximity to Brewer Lake. 
 
 To identify high-reward areas, or areas in the watershed where BMPs would provide the greatest return-on-investment, the sub-catchments were prioritized using two different methods: ranking and multiple criteria decision analysis (MCDA). The ranking method identified sub-catchments with high pollutant loading and feasibility for management based on separate criteria. Conversely, the MCDA compared each sub-catchment based on a weighted average of multiple criteria summarized in a single score. Each technique provides different insights into the prioritization process, and catchments identified as high reward under different sets of assumptions provide confidence that BMP application in these areas will provide the greatest return-on-investment.
 
-### Prioritization Method 1 – Ranking
+### 2.5.1. Prioritization Method 1 – Ranking
 
 Two main factors often drive the efficacy of a watershed management action. First, will it achieve the technical objectives (in this case related to sediment, nitrogen, and phosphorous reduction)? Second, can the action be feasibly implemented? The highest priority actions would then be those where actions are feasible to achieve the load reduction goals. 
 
@@ -180,7 +201,7 @@ brewer.rank$Load <- apply(cbind(brewer.rank$Sediment, brewer.rank$Nitrogen, brew
 brewer.rank$Feasibility <- apply(cbind(brewer.rank$Affordability, brewer.rank$Buffer, brewer.rank$TravelTime), 1, mean)
 ```
 
-### Prioritization Method 2 – Multi-criteria decision analysis (MCDA)
+### 2.5.2. Prioritization Method 2 – Multi-criteria decision analysis (MCDA)
 
 Many methods have been developed for comparing disparate metrics using a spectrum of qualitative to quantitative techniques (Linkov et al. 2009). Multi-criteria decision analysis (MCDA) provides a set of methods for normalizing metrics with different units and scales and combining those metrics into a single score for comparing alternatives, which has proven particularly useful for the multi-objective context of watershed planning (Yaryan Hall and Bledsoe 2023).
 
@@ -243,9 +264,9 @@ for(i in 1:ncatch){
 ```
 
 
-## *Identifying Management Actions in Priority Catchments*
+## *2.6. Efficacy of Management Actions in Priority Catchments*
 
-**Items to cover in this section**.  
+**Looking for Maya's help here. I think we will need ~2 methods paragraphs covering the following.**
 
 - Combining analysis of management actions with the priority locations.   
 - Second round of PLET analysis in the priority catchments.  
@@ -318,6 +339,7 @@ reduction.total[,,2] <- apply(reduction.nit[,,], c(1,3), sum)
 reduction.total[,,3] <- apply(reduction.pho[,,], c(1,3), sum)
 ```
 
+
 # **Results**
 
 Overview of the question-centric approach to presenting the results.
@@ -325,7 +347,7 @@ Overview of the question-centric approach to presenting the results.
 
 ## *Can watershed management achieve the load reduction targets?*
 
-Insert.
+The three BMP scenarios produced different rates of pollutant removal and required different amounts of pasture area to achieve the 15% pollutant reduction targets (Figure 2). PLET analyses indicate that pasture-oriented practices are more effective for nitrogen removal, whereas river-oriented practices more efficiently remove phosphorous and sediment. Using only pasture management practices, large amounts of pasture land would need to be converted to BMP application (i.e., 62% of existing pasture). River corridor BMPs achieve the load targets with significantly less pasture conversion (i.e., 43% of existing pasture), and combinations of practices further reduce land requirements (i.e., 41% of existing pasture). Notably, these values do not imply taking land out of pasture-oriented uses, but instead application of BMPs in those lands (e.g., cattle fencing, rotational grazing, poultry litter management). While ambitious in the scope and scale of BMP application, PLET results indicate that the nutrient removal targets are feasible, particularly with an emphasis on river corridor management.
 
 ```{r fig.cap="Figure 2. Pollutant removal rates for three scenarios of BMP application: pasture BMPs, river BMPs, and combined BMPs.)"}
 #Create figure summarizing prioritization based on ranking method
@@ -500,7 +522,7 @@ Conceptualization, M.L., J.H., and S.K.M.; Methodology, M.B., J.R., and S.K.M.; 
 
 # **References**
 
-**Insert more when writing begins in earnest**.
+Ayala-Torres, R., Dietterich, L.H., Wiest, S. and McKay, S.K., 2025. Developing predictive models of riparian buffer efficacy with meta-analysis. Environmental Challenges, p.101258.
 
 Baker, L., Evans-White, M.A. and Entrekin, S., 2018. Basin risk explains patterns of macroinvertebrate community differences across small streams in the Fayetteville Shale, AR. Ecological Indicators, 91, pp.478-489. 
 
@@ -509,6 +531,8 @@ Chao, X., Witthaus, L., Bingner, R., Jia, Y., Locke, M. and Lizotte, R., 2023. A
 Cohen, A. and Davidson, S., 2011. The watershed approach: Challenges, antecedents, and the transition from technical tool to governance unit. Water alternatives, 4(1), p.1.
 
 Davis, C.A. 2012. Assessing the impacts of surface water removal for use in natural gas extraction on a watershed level. Master’s Thesis. University of Arkansas.
+
+Dillard M., Brooks C., Fisher H., Pietersen H., Nijhuis A., van Breda A., and Durden S. 2021. Engaging Communities and Stakeholders in Implementing NNBF. Chapter 3 in International Guidelines on Natural and Nature-Based Features for Flood Risk Management. Edited by T. S. Bridges, J. K. King, J. D. Simm, M. W. Beck, G. Collins, Q. Lodder, and R. K. Mohan. Vicksburg, MS: U.S. Army Engineer Research and Development Center.
 
 EJScreen. 2025. Environmental Justice Screening and Mapping Tool (Version 2.3). Public Environmental Data Partners. https://pedp-ejscreen.azurewebsites.net/. Accessed on November 14, 2025.
 
@@ -524,6 +548,10 @@ Hemming, V., Camaclang, A.E., Adams, M.S., Burgman, M., Carbeck, K., Carwardine,
 
 Hoang, L., Fenner, R.A. and Skenderian, M., 2018. A conceptual approach for evaluating the multiple benefits of urban flood management practices. Journal of Flood Risk Management, 11, pp.S943-S959.
 
+Hudson River Foundation (HRF). 2021. Harbor-wide water quality monitoring report 2021. New York / New Jersey Harbor & Estuary Program.
+
+International Association for Public Participation (IAP2). 2018. Spectrum of public participation. https://www.iap2usa.org/cvs. Accessed October 23, 2025.
+
 Johnson, E., Austin, B.J., Inlander, E., Gallipeau, C., Evans-White, M.A. and Entrekin, S., 2015. Stream macroinvertebrate communities across a gradient of natural gas development in the Fayetteville Shale. Science of the Total Environment, 530, pp.323-332. 
 
 Lamy, F., Bolte, J., Santelmann, M. and Smith, C., 2002. Development and evaluation of multiple-objective decision-making methods for watershed management planning. Journal of the American Water Resources Association, 38(2), pp.517-529.
@@ -538,6 +566,8 @@ Linkov, I., Loney, D., Cormier, S., Satterstrom, F.K. and Bridges, T., 2009. Wei
 
 McKay, S.K., Theiling, C.H. and Dougherty, M.P., 2019. Comparing outcomes from competing models assessing environmental flows in the Minnesota River Basin. Ecological Engineering, 142, p.100014.
 
+McPhearson, T., M. Raymond, C., Gulsrud, N., Albert, C., Coles, N., Fagerholm, N., Nagatsu, M., Olafsson, A.S., Soininen, N. and Vierikko, K., 2021. Radical changes are needed for transformations to a good Anthropocene. Npj urban sustainability, 1(1), p.5.
+
 Menichino, G.T., Abera, L.E., Rickey Jr, T.W., Phillips, S.P. and McKay, S.K., 2025. A Phased Approach to Urban Stream Restoration Decision-Making in Utoy Creek, Atlanta, Georgia. Land, 14(3), p.449.
 
 Meerow, S. and Newell, J.P., 2017. Spatial planning for multifunctional green infrastructure: Growing resilience in Detroit. Landscape and urban planning, 159, pp.62-75.
@@ -550,8 +580,16 @@ Santeford, L.G. and Martin., W. 1980. The Conway water supply: Results of archeo
 
 Shiferaw, N., Habte, L. and Waleed, M., 2025. Land use dynamics and their impact on hydrology and water quality of a river catchment: a comprehensive analysis and future scenario. Environmental Science and Pollution Research, 32(7), pp.4124-4136.
 
+U.S. Army Corps of Engineers (USACE). 2022. Water resource policies and authorities: Watershed studies. ER 1105-2-102, Headquarters, Washington, D.C.
+
+U.S. Environmental Protection Agency (USEPA). 2008. Handbook for developing watershed plans to restore and protect our waters. EPA 841-B-08-002, Nonpoint Source Control Branch, Office of Water, United States Environmental Protection Agency, Washington, DC.
+
+U.S. Environmental Protection Agency (USEPA). 2012. Identifying and protecting healthy watersheds: Concepts, assessments, and management approaches. EPA 841-B-11-002, Office of Wetlands, Oceans, and Watersheds, Office of Water, United States Environmental Protection Agency, Washington, DC.
+
 Vercruysse, K., Dawson, D.A., Glenis, V., Bertsch, R., Wright, N. and Kilsby, C., 2019. Developing spatial prioritization criteria for integrated urban flood management based on a source-to-impact flood analysis. Journal of Hydrology, 578, p.124038.
 
 Woods A.J., Foti, T.L., Chapman, S.S., Omernik, J.M., Wise, J.A., Murray, E.O., Prior, W.L., Pagan, J.B., Jr., Comstock, J.A., and Radford, M., 2004, Ecoregions of Arkansas (color poster with map, descriptive text, summary tables, and photographs): Reston, Virginia, U.S. Geological Survey (map scale 1:1,000,000).
 
 Yaryan Hall, H.R. and Bledsoe, B.P., 2023. Integrated urban riverscape planning: Spatial prioritization for environmental equity. ASCE OPEN: Multidisciplinary Journal of Civil Engineering, 1, p.04023004.
+
+Zhang, Q., Blomquist, J.D., Fanelli, R.M., Keisman, J.L., Moyer, D.L. and Langland, M.J., 2023. Progress in reducing nutrient and sediment loads to Chesapeake Bay: Three decades of monitoring data and implications for restoring complex ecosystems. Wiley Interdisciplinary Reviews: Water, 10(5), p.e1671.
