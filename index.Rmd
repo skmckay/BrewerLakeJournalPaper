@@ -1,17 +1,17 @@
 ---
-title: 'Aligning multiple methods to inform planning decisions in the Brewer Lake Watershed, Arkansas, USA'
-author: "Michael Long, Julianna Hunter, Julia Ruff, Maya Burns, Drew Ackerman, and S. Kyle McKay"
+title: 'Aligning multiple methods to inform catchment planning in the Brewer Lake Watershed, Arkansas, USA'
+author: "S. Kyle McKay, Julianna Hunter, Julia Ruff, Maya Burns, Drew Ackerman, and Michael Long"
 date: "January 2026"
 output:
-  word_document:
-    toc: no
-    toc_depth: '5'
   html_document:
     toc: yes
     toc_depth: 5
     toc_float:
       collapsed: no
       smooth_scroll: yes
+  word_document:
+    toc: no
+    toc_depth: '5'
 ---
 
 
@@ -91,9 +91,9 @@ Brewer Lake was completed in 1983 through a partnership between the U.S. Army Co
 
 ## *2.2. Watershed Planning Process*
 
-(**Michael, I need your help here**).  
+(**Looking for Michael and Julianna's help here**).  
 
-This study was conducted under a partnership between the U.S. Army Corps of Engineers and the Conway Corporation to develop a long-term vision for the watershed, identify preliminary management actions, and align opportunities with potential funding sources (e.g., USEPA's 319 program, state grants). The study was conducted under an 18 month timeline with oversight from these entities as well as a technical advisory body with representatives from other federal and state agencies. While broader watershed goals were considered, the primary motivations center on the missions of these entities. 
+This study was conducted under a partnership between the U.S. Army Corps of Engineers and the Conway Corporation to develop a long-term vision for the watershed, identify preliminary management actions, and align opportunities with potential funding sources (e.g., USEPA's 319 program, USDA's Conservation Reserve Program, state grants). The study was conducted under an 18 month timeline with oversight from these entities as well as a technical advisory body with representatives from other federal and state agencies. While broader watershed goals were considered, the primary motivations center on the missions of these entities. 
 
 A description of local problems and overarching management goals provided the foundation for data compilation, analyses, diagnosis of underlying stressors, and helped guide selection of management actions (USEPA 2008, USACE 2022). The process of problem identification and goal setting is a key opportunity for incorporating stakeholders in ecosystem management writ large (Dillard et al. 2021) and developing watershed plans specifically (USEPA 2008). Public participation exists on a large spectrum from  informing citizens of activities to empowering stakeholders in decision-making processes (IAP2 2018). For this study, stakeholders were involved through outreach activities to ensure that their concerns and aspirations were understood, considered, and reflected in the watershed plan. Biweekly progress meetings were conducted from October 2024 to December 2025 with technical stakeholders from Conway Corporation, federal agencies (USACE, NRCS, etc.), and the Arkansas Department of Agriculture. Additionally, the experiences of watershed residents, lake users, and other members of the public were incorporated through two facilitated public meetings (May 2025 and January 2026) and a public website. 
 
@@ -130,17 +130,26 @@ knitr::kable(Table01, caption="Table 1. Objectives, indicators, and targets for 
 
 A numeric target or threshold for each indicator helps judge the relative success of watershed management actions in achieving the objectives. However, numerical targets are challenging to develop without technical information on feasibility in a specific geography. Initial targets were developed qualitatively and then confirmed using simple modeling exercises.
 
-The technical advisory team established the initial numerical targets. The 2020 algal bloom in Brewer Lake was identified as an undesirable outcome by the technical stakeholder advisory group, and a general preference was identified for reducing nitrogen, phosphorous, and sediment loading to the reservoir. Load reductions were judged relative to a baseline of 2009-2023, which represents a recent period in which algal blooms were infrequent, short duration, or low consequence. A 15% reduction from this baseline was identified based on the technical advisory group’s understanding of what is achievable. This level of reduction was viewed as ambitious but achievable relative to long-term program tracking in other locations with water quality management programs like New York Harbor (HRF 2021) and Chesapeake Bay (Zhang et al. 2023).
+The technical advisory team established the initial numerical targets. The 2020 algal bloom in Brewer Lake was identified as an undesirable outcome by the technical stakeholder advisory group, and a general preference was identified for reducing nitrogen, phosphorous, and sediment loading to the reservoir. Load reductions were judged relative to a baseline of 2009-2023, which represents a recent period in which algal blooms were infrequent, short duration, or low consequence. A 15% reduction in loading was viewed as ambitious but achievable relative to long-term program tracking in other locations with water quality management programs like New York Harbor (HRF 2021) and Chesapeake Bay (Zhang et al. 2023).
 
 These targets were then analyzed using the EPA’s Pollutant Load Estimation Tool (PLET) to estimate removal efficiency of three scenarios of best management practices (BMPs) at the watershed-scale. PLET is a spatially lumped calculator treating the entire watershed as one analytical domain. Land cover serves as the primary driver of removal efficiency in PLET, and the National Land Cover Data Set (NLCD) from 2021 was used to parameterize the model. This model provides a low level of effort for preliminary exploration of feasibility.
 
-Three sets of BMPs were executed in PLET based on the pasture, river, and combined scenarios. The BMP calculator was configured such that similar practices were used in series, and dissimilar practices were used in parallel. All practices were assumed to be applied in series with either grassed or forested riparian buffers due to the well-described efficacy of buffer zones (Ayala-Torres et al. 2025). Area treated by each practice was calculated by dividing the current pasture area evenly into each set of practices. No BMP calculations were performed for urban areas due to its insignificant pollutant load contribution in this watershed. The three exploratory scenarios were:  
+Three sets of BMPs were executed in PLET based on the pasture, river, and combined scenarios. The BMP calculator was configured such that similar practices were used in series, and dissimilar practices were used in parallel. All practices were assumed to be applied in series with either grassed or forested riparian buffers due to the well-described efficacy of buffer zones (Ayala-Torres et al. 2025). Area treated by each practice was calculated by dividing the current pasture area evenly into each set of practices. No BMP calculations were performed for urban areas due to the small extent of these areas in this watershed. The three exploratory scenarios were:  
 
-- *Pasture BMPs*. This scenario focused  on pasture lands as a key source of sediment and nutrient inputs and includes actions like cattle exclusion, rotational grazing, pasture planting, and alternative water supplies.  
-- *River BMPs*. This scenario focused on actions within river corridors such as riparian buffer enhancement and streambank stabilization. These actions assume that river corridors may provide better alignment for real estate actions (e.g., voluntary programs, incentives, easements, acquisitions), given flooding potential and other regulatory limits (e.g., buffer ordinances).  
+- *Pasture BMPs*. This scenario focused on pasture lands as a key source of sediment and nutrient inputs and includes actions like cattle exclusion, rotational grazing, pasture planting, and alternative water supplies.  
+- *River BMPs*. This scenario focused on actions within river corridors such as riparian buffer enhancement and streambank stabilization. These actions also assumed that river corridors may provide better alignment for real estate actions (e.g., voluntary programs, incentives, easements, acquisitions), given flooding potential and other regulatory limits (e.g., buffer ordinances).  
 - *Combined BMPs*. This scenario combines the strategies into a single scenario applying both practices.
 
 ```{r}
+#Specify area for achieving 15% goal based on PLET
+PLET.area <- data.frame(matrix(NA, nrow=3, ncol=5))
+colnames(PLET.area) <- c("Scenario", "Sediment", "Nitrogen", "Phosphorous", "Area.per")
+PLET.area$Scenario <- c("Pasture BMPs", "River BMPs", "Combined BMPs")
+PLET.area$Sediment <- c(25, 17, 16)
+PLET.area$Nitrogen <- c(15, 16, 16)
+PLET.area$Phosphorous <- c(18, 15, 15)
+PLET.area$Area.per <- c(61.5, 43.0, 41.5)
+
 #Specify pollutant removal efficiency from PLET
 PLET <- data.frame(matrix(NA, nrow=3, ncol=4))
 colnames(PLET) <- c("Scenario", "Sediment", "Nitrogen", "Phosphorous")
@@ -156,24 +165,27 @@ PLET.colors <- viridis(3)
 
 ## *2.4. Assessing Watershed Condition*
 
-(**Looking for Drew's help here.**)  
+(**Looking for Drew's help here, particularly with adding goodness-of-fit statistics for model calibration.**)  
 
-- Why is watershed modeling needed? Establish baseline conditions, understand sources at locations without data, predict effectiveness of management actions (eventually).  
-- HSPF model setup: inputs, spatial and temporal resolution, calibration, goodness-of-fit.
-- Model application to estimate load for sediment, nitrogen, and phosphorous.
+As described, watershed management goals centered on sediment, nitrogen, and phosphorous. Water quality data were unavailable throughout the watershed at sufficient spatial or temporal resolution to identify sources and understanding the effects of management actions. Therefore, a spatially distributed watershed model was developed to inform watershed planning. When calibrated against historical data, watershed models can help reconstruct historical change in a basin (Yan and Edwards 2013) as well as forecast future conditions such as management (Davis 2012, Hart 2014), land use (McKay et al. 2019), or climate scenarios (Sharif et al. 2007). 
 
+HSPF (Hydrologic Simulation Program – Fortran) (Bicknell et al., 2001) was used to simulate watershed hydrology as well as sediment and nutrient dynamics. The HSPF model is included in the EPA BASINS suite of tools (US EPA, 2025) and is frequently used in watershed studies nationwide (e.g., McKay et al. 2019). Furthermore, prior HSPF models have been used in this watershed to estimate effects of land use change from oil and gas development on water quality outcomes (Hart 2014). **Add a sentence or two here about parameterization, number of catchments, average catchment size, etc.**
+
+The HSPF model was calibrated for the single streamflow monitoring site in the watershed (USGS Gage Number 07261090), based on a period of record from 2009-2023. No water quality data were available at this site, and only hydrologic calibration was possible. The HSPF model successfully reproduced measured flow patterns, including daily hydrographs (**GOF=XX**), monthly averages (**GOF=XX**), cumulative volumes (**GOF=XX**), and flow duration distributions (**GOF=XX**). Model performance metrics met all major calibration targets for storm peaks, storm volumes, seasonal runoff, recession rates, and total flow volume (i.e., **GOF>XX for all metrics**). Models showed greater error rates in low and high flow ranges, but these were deemed acceptable given the study's focus on long-term trends aggregated at decadal scales.
+
+Following calibration, models were applied to estimate sediment, nitrogen, and phosphorous yield in each of the **XX** catchments. Sediment was simulated over the five year period from 2010-2015 and nutrients were simulated for the 11 years spanning 2013-2024. **Need a statement justifying the different periods of analysis.** Modeled yield was aggregated temporally over the simulation period (6 years and 12 years for sediment and N/P, respectively). While 60 sub-catchments provided greater predictive accuracy in HSPF, this spatial resolution was considered finer scale (**XXX** mi^2^ average size) than needed for management. These sub-catchments were aggregated into 26 larger catchments for prioritization purposes (**XXX** mi^2^ average size), based on slope, soil type, land use, and proximity to Brewer Lake. 
 
 ## *2.5. Prioritization of Catchments*
 
-The extent of BMP application may be significantly reduced, if actions are placed strategically throughout the watershed in locations with the greatest return-on-investment. This section describes a suite of analyses to identify strategically important catchments for BMP application. The HSPF model used 60 sub-catchments to provide sufficient predictive capability, but this spatial resolution was considered finer scale (**XXX** mi^2^ average size) than needed for management. These sub-catchments were aggregated into 26 larger catchments for prioritization purposes (**XXX** mi^2^ average size), based on slope, soil type, land use, and proximity to Brewer Lake. 
+(**Looking for Maya and Julia's help here.**)  
 
-To identify high-reward areas, or areas in the watershed where BMPs would provide the greatest return-on-investment, the sub-catchments were prioritized using two different methods: ranking and multiple criteria decision analysis (MCDA). The ranking method identified sub-catchments with high pollutant loading and feasibility for management based on separate criteria. Conversely, the MCDA compared each sub-catchment based on a weighted average of multiple criteria summarized in a single score. Each technique provides different insights into the prioritization process, and catchments identified as high reward under different sets of assumptions provide confidence that BMP application in these areas will provide the greatest return-on-investment.
+The extent of BMP application may be significantly reduced, if actions are placed strategically throughout the watershed in locations with the greatest return-on-investment. This section describes two different analyses to identify strategically important catchments for BMP application: (1) catchment ranking and (2) multiple criteria decision analysis (MCDA). The ranking method identified catchments with high pollutant loading and feasibility for management based on separate criteria. Conversely, the MCDA compared each catchment based on a weighted average of multiple criteria summarized in a single score. Each technique provides different insights into the prioritization process, and catchments identified as high reward under different sets of assumptions provide confidence that BMP application in these areas will provide the greatest return-on-investment.
 
-### 2.5.1. Prioritization Method 1 – Ranking
+### 2.5.1. Ranking-based Prioritization
 
-Two main factors often drive the efficacy of a watershed management action. First, will it achieve the technical objectives (in this case related to sediment, nitrogen, and phosphorous reduction)? Second, can the action be feasibly implemented? The highest priority actions would then be those where actions are feasible to achieve the load reduction goals. 
+Two main factors often drive the efficacy of a watershed management action. First, will it achieve the technical objectives (in this case related to sediment, nitrogen, and phosphorous reduction)? Second, can the action be feasibly implemented? The highest priority actions would then be those where actions are feasible to achieve the load reduction goals. The first prioritization method ranked each catchment based on the relative achievement of the objectives and proxies for feasibility of implementation.
 
-The flux of sediment, nitrogen, and phosphorous from HSPF were used to assess the degree to which technical objectives were achieved. The catchments were ranked from lowest to highest loading for each constituent. The average rank across all three constituents was used as a general proxy for identifying “problem areas” in the watershed. 
+The flux of sediment, nitrogen, and phosphorous from HSPF were used to assess the degree to which technical objectives were achieved. The catchments were ranked from lowest to highest loading for each constituent (i.e., 1 to 26). The average rank across all three constituents was used as a general proxy for identifying “problem areas” in the watershed. 
 
 Ideally, the feasibility of an action could be assessed relative to the total project cost, stakeholder surveys, or other data. However, no direct metrics were available for all sites in this watershed, and a suite of proxy metrics were used as a relative metric of feasibility. First, appraised land value from tax records was used as a general proxy for affordability. Second, the forested proportion of a 100-foot riparian area was used as a surrogate for the durability of BMPs with the assumption that, all things equal, BMPs would perform better in sites with forested buffers. Third, time of travel from the catchment outlet to Brewer Lake (from HSPF) was used as a proxy for the directness of the effects on Brewer Lake water quality. The catchments were then ranked from lowest to highest on these factors, and the average rank was used as a general proxy for the feasibility of actions.
 
@@ -201,11 +213,11 @@ brewer.rank$Load <- apply(cbind(brewer.rank$Sediment, brewer.rank$Nitrogen, brew
 brewer.rank$Feasibility <- apply(cbind(brewer.rank$Affordability, brewer.rank$Buffer, brewer.rank$TravelTime), 1, mean)
 ```
 
-### 2.5.2. Prioritization Method 2 – Multi-criteria decision analysis (MCDA)
+### 2.5.2. MCDA-based Prioritization
 
 Many methods have been developed for comparing disparate metrics using a spectrum of qualitative to quantitative techniques (Linkov et al. 2009). Multi-criteria decision analysis (MCDA) provides a set of methods for normalizing metrics with different units and scales and combining those metrics into a single score for comparing alternatives, which has proven particularly useful for the multi-objective context of watershed planning (Yaryan Hall and Bledsoe 2023).
 
-A form of MCDA was used to prioritize catchments in the Brewer Lake watershed using a weighted-score based on multiple criteria. Five criteria were included in this analysis: flux of sediment, flux of total nitrogen, flux of total phosphorous, proportion of land use in pasture, and distance from the catchment outlet to Brewer Lake. All metrics were converted to a 1 to 5 scale for comparison across different units with 1 and 5 representing less and more preferrable outcomes, respectively. Flux scores were computed based on the quantiles of the data from 0-20%, 20-40%, 40-60%, 60-80%, and 80-100% with corresponding scores of 1, 2, 3, 4, and 5, respectively. Land use was assessed based on proportion of pasture in the catchment with thresholds at < 30%, 30-40%, 40-50%, 50-60%, and > 60% for 1 to 5 scores. Distance to the lake was normalized as 0 miles, 0-1 miles, 1-2 miles, 2-3 miles, 3-4 miles, and > 4 miles for scores 5 to 1. Weighting was determined based on pairwise comparison of the relative importance of each criteria, where sediment, nitrogen, phosphorous, land use, and distance were ultimately weighted as 20%, 27%, 33%, 13%, and 7%, respectively. All normalized metrics were combined through a weighted-average to produce an overall score for each catchment on a 1 to 5 scale, where 5 represents the highest priority catchment.
+A form of MCDA was used to prioritize catchments in the Brewer Lake watershed using a weighted-score based on multiple criteria. Five criteria were included in this analysis: flux of sediment, flux of total nitrogen, flux of total phosphorous, proportion of land use in pasture, and distance from the catchment outlet to Brewer Lake. All metrics were converted to a 1 to 5 scale for comparison across different units with 1 and 5 representing less and more preferable outcomes, respectively. Flux scores were computed based on the quantiles of the data from 0-20%, 20-40%, 40-60%, 60-80%, and 80-100% with corresponding scores of 1, 2, 3, 4, and 5, respectively. Land use was assessed based on proportion of pasture in the catchment with thresholds at < 30%, 30-40%, 40-50%, 50-60%, and > 60% for 1 to 5 scores. Distance to the lake was normalized as 0 miles, 0-1 miles, 1-2 miles, 2-3 miles, 3-4 miles, and > 4 miles for scores 5 to 1. Weighting was determined based on pairwise comparison of the relative importance of each criteria, where sediment, nitrogen, phosphorous, land use, and distance were ultimately weighted as 20%, 27%, 33%, 13%, and 7%, respectively. All normalized metrics were combined through a weighted-average to produce an overall score for each catchment on a 1 to 5 scale, where 5 represents the highest priority catchment.
 
 
 ```{r}
@@ -266,13 +278,13 @@ for(i in 1:ncatch){
 
 ## *2.6. Efficacy of Management Actions in Priority Catchments*
 
-**Looking for Maya's help here. I think we will need ~2 methods paragraphs covering the following.**
+(**Looking for Maya and Julianna's help here.**)  
 
-- Combining analysis of management actions with the priority locations.   
-- Second round of PLET analysis in the priority catchments.  
-- Verification of the ability to achieve targets.  
-- Bracketing in the scale of activity needed for watershed managers (i.e., ranges of area).  
+Catchment prioritization provides a mechanism for identifying a reduced number of locations in the watershed. However, the reduced extent of actions has the potential to make load reduction goals infeasible. This analysis examines whether watershed-wide load reduction goals can be achieved in the smaller footprint of the prioritized catchments. 
 
+The HSPF models could potentially be applied to make spatially explicit assumptions about installation of BMPs at specific locations in the watershed. However, this parcel-level resolution would have to assume land owner willingness, which does not align with the goals of identifying general recommendations and could, ultimately, hinder implementation with stakeholders. As an alternative, this analysis focuses on identifying the general level of BMP implementation in the priority catchments that would be needed to achieve goals. 
+
+PLET was applied to examine the range of pollutant reduction possible at different levels of BMP implementation. Again, three scenarios were considered related to pasture BMPs, river BMPs, and combined BMPs. BMP implementation was varied from 0-100% for all pasture lands in the priority catchments. Sediment and nutrient removal efficiencies were used from the watershed-wide analysis and combined with local land use conditions in the priority watersheds. Load reduction was estimated for each priority watershed and summed for comparison with the watershed-wide goals of 15%.
 
 ```{r}
 #Specify priority catchments
@@ -340,14 +352,15 @@ reduction.total[,,3] <- apply(reduction.pho[,,], c(1,3), sum)
 ```
 
 
-# **Results**
+# **3. Results**
 
-Overview of the question-centric approach to presenting the results.
+The watershed plan was developed through a series of analyses aligned with typical management questions, as outlined at the beginning of the Methods section. The context for decision making was developed to understand the history of management, modern land use, and potential future scenarios for the region. Section 2.1 briefly describes some of these issues, which were expanded in dialogs with and reports for regional stakeholders. With input from technical and non-technical stakeholders, a set of primary and secondary objectives were developed for the study (Table 1), which served as the primary organizational structure for subsequent analyses and prioritization. This section further describes the analytical results from preliminary modeling of numerical load reduction targets with PLET (Section 3.1), water quality condition assessment with HSPF (Section 3.2), catchment prioritization using two different MCDA methods (Section 3.3), and anticipated water quality outcomes in the prioritized watersheds (Section 3.4).
 
+## *3.1. Can watershed management achieve the load reduction targets?*
 
-## *Can watershed management achieve the load reduction targets?*
+Three BMP scenarios were executed in PLET to understand the potential levels of pollutant removal and verify the feasibility of a 15% load reduction goal. PLET was iteratively applied by increasing the extent of BMP application in pasture lands until 15% load reduction was achieved for sediment, nitrogen, and phosphorous. The three BMP scenarios produced different rates of pollutant removal and required different amounts of pasture area to achieve the 15% pollutant reduction targets (Figure 2). 
 
-The three BMP scenarios produced different rates of pollutant removal and required different amounts of pasture area to achieve the 15% pollutant reduction targets (Figure 2). PLET analyses indicate that pasture-oriented practices are more effective for nitrogen removal, whereas river-oriented practices more efficiently remove phosphorous and sediment. Using only pasture management practices, large amounts of pasture land would need to be converted to BMP application (i.e., 62% of existing pasture). River corridor BMPs achieve the load targets with significantly less pasture conversion (i.e., 43% of existing pasture), and combinations of practices further reduce land requirements (i.e., 41% of existing pasture). Notably, these values do not imply taking land out of pasture-oriented uses, but instead application of BMPs in those lands (e.g., cattle fencing, rotational grazing, poultry litter management). While ambitious in the scope and scale of BMP application, PLET results indicate that the nutrient removal targets are feasible, particularly with an emphasis on river corridor management.
+Analyses indicate that pasture-oriented practices are more effective for nitrogen removal, whereas river-oriented practices more efficiently remove phosphorous and sediment. Using only pasture management practices, large amounts of pasture land would need to be converted to BMP application (i.e., 62% of existing pasture). River corridor BMPs achieve the load targets with significantly less pasture conversion (i.e., 43% of existing pasture), and combinations of practices further reduced land requirements (i.e., 41% of existing pasture). Notably, these values do not imply taking land out of pasture-oriented uses, but instead application of BMPs in those lands (e.g., cattle fencing, rotational grazing, poultry litter management). While ambitious in the scope and scale of BMP application, PLET results indicate that the nutrient removal targets are feasible, particularly with an emphasis on river corridor management.
 
 ```{r fig.cap="Figure 2. Pollutant removal rates for three scenarios of BMP application: pasture BMPs, river BMPs, and combined BMPs.)"}
 #Create figure summarizing prioritization based on ranking method
@@ -357,13 +370,13 @@ png(filename="02_PLET_Efficiencies.png", width = 6, height = 4, units = "in", re
 par(mar=c(4,4,1,1))
 
 #Create the plot
-barplot(height=as.matrix(t(PLET[,2:4])), names.arg=PLET$Scenario, col=PLET.colors, beside=TRUE, ylim = c(0,1), 
-     xlab="Management Scenario", ylab="Pollutant Removal Efficiency", main="")
+barplot(height=as.matrix(t(PLET.area[,2:4])), names.arg=PLET$Scenario, col=PLET.colors, beside=TRUE, ylim = c(0,30), 
+     xlab="Management Scenario", ylab="Pollutant Removal Efficiency (%)", main="")
 box()
-abline(h=c(0.2, 0.4, 0.6, 0.8), lty=3, lwd=0.5)
+abline(h=c(5, 10, 15, 20, 25), lty=3, lwd=0.5)
 
 #Add legend
-legend("topleft", legend=c("Sediment", "Nitrogen", "Phosphorous"), fill=PLET.colors, bg="white", cex=0.8)
+legend("topright", legend=c("Sediment", "Nitrogen", "Phosphorous"), fill=PLET.colors, bg="white", cex=0.8)
 
 #Turn off plot device
 invisible(dev.off())
@@ -372,22 +385,31 @@ knitr::include_graphics("02_PLET_Efficiencies.png")
 ```
 
 
-## *Where are the sources of sediment, nitrogen, and phosphorous in the watershed?*
+## *3.2. Where are the sources of sediment, nitrogen, and phosphorous in the watershed?*
 
-Describe results from HSPF and the associated estimates of pollutant loads.
+(**Looking for Drew's help here, particularly with adding descriptions of outcomes.**)  
 
-```{r fig.cap="Figure 3. HSPF output for pollutant loads. All loads are expressed as median fluxes of daily load estimates over a simulation period of 2009-2023."}
+Sediment, nitrogen, and phosphorous yield was estimated for each of the 26 catchments using HSPF. Modeled water quality loading shows significant differences across the watershed for each constituent (Figure 3). 
+
+Sediment paragraph - Qualitative description of overarching issues in the watershed. Ranges of yield from the models (Figure 3A). Key observations from the results about hotspots or patterns.  
+
+Nitrogen paragraph - Qualitative description of overarching issues in the watershed. Ranges of yield from the models (Figure 3B). Key observations from the results about hotspots or patterns.  
+
+Phosphorous paragraph - Qualitative description of overarching issues in the watershed. Ranges of yield from the models (Figure 3C). Key observations from the results about hotspots or patterns.  
+
+Overall, HSPF modeling provided an important mechanism for identifying sources of sediment, nitrogen, and phosphorous. Collectively,...**Can we say something here about general trends across the constituents? Maybe something about general hotspots on the east side of the basin?**
+
+```{r fig.cap="Figure 3. HSPF output for pollutant loads. All loads are expressed as median fluxes of daily load estimates over a simulation period. Sediment was simulated over the five year period from 2010-2015, and nutrients were simulated over the 11 years spanning 2013-2024."}
 #Insert a figure summarizing pollutant load estimates from HSPF
 #NOTE: This could be created in R for future use...
 knitr::include_graphics("03_HSPF.Outputs.png")
 ```
 
+## *3.3. What catchments are priorities for management actions?*
 
-## *What catchments are priorities for management actions?*
+Two types of analyses were used to prioritize catchments in the Brewer Lake Watershed: ranking and MCDA. Each method provided an independent mechanism for developing priorities. This section first describes the results of these analyses separately and then examines the consistency between the methods. 
 
-Insert.
-
-Talk through ranking results.
+The relative rankings of load and feasibility factors provided a mechanism for identifying priority catchments (Figure 4). High priority sites could be identified based on either factor independently such as catchment 1 as the most urgent location from a load reduction perspective or catchment 22 from a feasibility perspective. However, the greatest utility lies in identifying sites that have high potential on both factors (i.e., catchments 17 and 19) and avoiding sites with the least potential (i.e., catchments 2 and 16). Through this lens, catchments with higher feasibility at the same level of water quality load would be identified as preferable (e.g., catchment 17 would be preferred over catchment 15), and sites with higher load at the same level of feasibility would be identified (e.g., catchment 19 would be preferred over catchment 6). Based on this analysis, catchments 1, 17, 19, and 22 are identified as key opportunities for watershed management actions balancing water quality loading (the project objectives) with feasibility (project constraints). 
 
 ```{r fig.cap="Figure 4. Prioritization based on average ranking relative to water quality loads (TN, TP, Sediment) and feasibility (appraised land value, riparian buffers, and time of travel to Brewer Lake). Labels indicate catchment number."}
 #Create figure summarizing prioritization based on ranking method
@@ -418,7 +440,7 @@ invisible(dev.off())
 knitr::include_graphics("04_Prioritization_Ranking.png")
 ```
 
-Talk through the MCDA results
+The MCDA produced an estimate of the potential for load reduction in each catchment, which can be summarized relative to the individual criteria or the overall weighted score (Table 2). Catchments 1 and 19 show the greatest potential benefit relative to these prioritization criteria. Catchments 9, 10, 13, and 25 also show promise but with slightly lower scores. Based on the MCDA, Catchments 1, 9, 10, 13, 19, and 25 are identified as key opportunities for watershed management actions.
 
 ```{r echo=FALSE}
 #Create empty table
@@ -430,9 +452,15 @@ rownames(Table02) <- NULL
 knitr::kable(Table02, caption="Table 2. Summary of MCDA metrics for prioritization.", align="c") 
 ```
 
-## *Can watershed-wide load reduction targets be met in only the priority watersheds?*
+Eight catchments were identified based on the two different prioritization processes (i.e., 1, 9, 10, 13, 17, 19, 22, and 25). Catchments 1 and 19 were identified by both prioritization methods due to their high pollutant load and may be considered top priorities as “problem areas” in the watershed. Catchments 9, 10, and 13 were also identified by the MCDA as technically important opportunities for managing pollutant loads in the central valley portions of the basin. Catchments 17, 22, and 25 were identified as key sites for BMPs given their proximity to Brewer Lake. 
 
-Insert.
+## *3.4. Can watershed-wide load reduction targets be met in only the priority watersheds?*
+
+The priority watersheds represent a significantly reduced footprint (10,300 ac) compared with the watershed as a whole (22,000 ac). PLET was applied to examine the potential removal associated with BMP implementation in only the priority catchments. The three BMP scenarios showed different levels of load reduction for sediment, nitrogen, and phosphorous as the extent of BMP implementation was varied in pasture lands (Figure 5). 
+
+All three BMP scenarios can meet the 15% reduction target for sediment, nitrogen, and phosphorous by taking action only in the priority catchments. The amount of land required to meet the target can vary substantially. For instance, the pasture BMPs would require more than 70% of pasture lands to meet the nitrogen target, whereas the combined BMP scenario would need less than 45% of pasture lands to meet the same goal. Across scenarios, results indicate that water quality goals can potentially be met with application of BMPs in 40-50% of pasture lands in the eight priority catchments. 
+
+As discussed, a primary constraint is the need to avoid impacts to private property rights. Consequently, site-specific management measures on individual parcels were not evaluated. Because this plan does not include parcel-level analysis, it cannot provide a definitive assessment of the feasibility of implementing particular measures within specific catchments. Such feasibility determinations would require detailed, site-specific information that lies beyond the scope and intent of this plan. However, this analysis does provide managers with anticipated ranges of BMP implementation.
 
 ```{r fig.cap="Figure 5. Examination of the extent of BMPs required to meet watershed goals by only taking action in the eight (8) priority catchments. All three BMP scenarios can meet the 15% reduction target for nitrogen, phosphorous, and sediment by taking action only in the priority sub-catchments."}
 #Create figure estimating area requirements to meet pollutant removal targets
@@ -499,15 +527,14 @@ invisible(dev.off())
 knitr::include_graphics("05_PLET_PriorityCatchments.png")
 ```
 
-# **Discussion**
+# **4. Discussion**
 
 **Potential topics that could be ripe for discussion**.  
 
+- Discuss how the findings guided management decisions. Mention the question-centric approach. Mention the need for being non-prescriptive, which gives managers capacity to negotiate with stakeholders about where actions are implemented.  
 - Methods for multi-purpose planning are rapidly evolving. Methods can be applied in conjunction (rather than picking one approach). Applying multiple tools for different levels of effort (Hanson et al. 2022) and examining alignment of the tools (McKay et al. 2019).
-- Multi-purpose planning is hard. Trade-offs are challenging to think through. Secondary objectives were important here, but played little role in decision making.  
-- Misalignment between physical processes and jurisdictional boundaries (Cohen and Davidson 2011).  
-- Watershed prioritization is simply the first step. More detailed analyses are needed for site-scale design.  
-- The temporal scale of watershed planning is long-term, so we need to arm decision-makers with general targets and ranges of effort (not just a hit list of projects). 
+- Multi-purpose planning is hard. Trade-offs are challenging to think through. Secondary objectives were important here, but played little role in decision making. Misalignment between physical processes and jurisdictional boundaries (Cohen and Davidson 2011).  
+- Watershed prioritization is simply the first step. More detailed analyses are needed for site-scale design. The temporal scale of watershed planning is long-term, so we need to arm decision-makers with general targets and ranges of effort (not just a hit list of projects). 
 
 
 # **Acknowledgements**
