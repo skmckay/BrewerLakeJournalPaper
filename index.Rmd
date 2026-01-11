@@ -3,15 +3,15 @@ title: 'Aligning multiple methods to inform integrated catchment planning in the
 author: "S. Kyle McKay, Julianna Hunter, Julia Ruff, Maya Burns, Drew Ackerman, and Michael Long"
 date: "January 2026"
 output:
-  word_document:
-    toc: no
-    toc_depth: '5'
   html_document:
     toc: yes
     toc_depth: 5
     toc_float:
       collapsed: no
       smooth_scroll: yes
+  word_document:
+    toc: no
+    toc_depth: '5'
 ---
 
 
@@ -38,8 +38,8 @@ library(viridis)
 This document is a working draft of a journal paper summarizing the Brewer Lake watershed study. A few notes:  
 
 - *Authorship*: The authorship list is simply a first volley based on contributions to the USACE report and journal paper to date. Team members can be added as needed, and we need to discuss the relative order of authors.  
-- *Potential audience*: Largely focused on applied water science community and practitioners developing watershed management plans. Secondary audience is government entities funding watershed assessments. Probably best reached through an open access journal.  
-- *Potential outlets* (in rough submission order): [Water](https://www.mdpi.com/journal/water) (a lower bar but fast turn-around),  [Journal of the American Water Resources Association](https://onlinelibrary.wiley.com/journal/17521688) (incredibly slow but lots of watershed assessment focus), [PLOS Water](https://journals.plos.org/water/) (probably more hypothesis-driven that our analysis)
+- *Audience*: Largely focused on applied water science community and practitioners developing watershed management plans. Secondary audience is government entities funding watershed assessments. Probably best reached through an open access journal.  
+- *Proposed Outlet*: [Water](https://www.mdpi.com/journal/water)
 
 
 # **Abstract**
@@ -534,7 +534,7 @@ Many processes have emerged to guide multi-purpose or integrated planning at wat
 
 Watershed decisions are, like other environmental management decisions, complex multi-objective undertakings rife with analytical and cognitive challenges (Hemming et al. 2022). We used two different weight-of-evidence techniques, although many others could have been appropriate (Linkov et al. 2009). We acknowledged the need for including secondary objectives important to the community in decision making (Table 1), but these qualitative goals proved challenging to integrate alongside quantitative objectives for water quality improvement. This ommision is common in decision problems, where so-called "intangible objectives" can be vitally important but challenging to directly include in decision logic (Hemming et al. 2022). We also sought methods that were sensitive to stakeholder preferences regarding property rights and latitude for future management, which echoes common challenges in watershed planning where governance authority and jurisdiction may not always align with physical or ecological priorities (Cohen and Davidson 2011).
 
-Ultimately, the Brewer Lake watershed study merged existing watershed planning and decision analysis processes with questions and constraints identified by local stakeholders and managers. The study provided discrete but non-prescriptive priorities that can guide management choices toward specific parts of the watershed and families of BMPs. However, analysis is one component of watershed managment (Montgomery et al. 1995), and subsequent actions will be needed for co-producing BMPs with stakeholders, site-scale design, project implementation, monitoring, and long-term operations and maintenance. The temporal scale of watershed planning is long-term, and this study sought to arm decision makers with the priorities to guide the next steps in the long arc of multi-generational watershed management.
+Ultimately, the Brewer Lake watershed study merged existing watershed planning and decision analysis processes with questions and constraints identified by local stakeholders and managers. The study provided discrete but non-prescriptive priorities that can guide management choices toward specific parts of the watershed and families of BMPs. However, analysis is one component of watershed management (Montgomery et al. 1995), and subsequent actions will be needed for co-producing BMPs with stakeholders, site-scale design, project implementation, monitoring, and long-term operations and maintenance. The temporal scale of watershed planning is long-term, and this study sought to arm decision makers with the priorities to guide the next steps in the long arc of multi-generational watershed management.
 
 
 # **Acknowledgements**
