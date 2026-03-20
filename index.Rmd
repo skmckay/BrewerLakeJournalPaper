@@ -1,17 +1,17 @@
 ---
 title: 'Aligning multiple methods to inform integrated catchment planning in the Brewer Lake Watershed, Arkansas, USA'
 author: "S. Kyle McKay, Julianna Hunter, Julia Ruff, Maya Burns, Drew Ackerman, and Michael Long"
-date: "January 2026"
+date: "March 2026"
 output:
+  word_document:
+    toc: no
+    toc_depth: '5'
   html_document:
     toc: yes
     toc_depth: 5
     toc_float:
       collapsed: no
       smooth_scroll: yes
-  word_document:
-    toc: no
-    toc_depth: '5'
 ---
 
 
@@ -78,7 +78,7 @@ Brewer Lake is located in central Arkansas within the Arkansas Valley ecoregion,
 
 The high ridge slopes and moderate valley slopes of the Cypress Creek watershed make it representative of the broader Arkansas Valley physiographic province in which it resides (Hart 2014). Soils are predominantly sandy loam and silty loam with good drainage in the hydrologic soil groups C, C/D, and D. The climate is humid subtropical with hot, humid summers and mild winters. Average annual rainfall is 58 inches (NLDAS) with higher amounts in spring (5-7 inches per month) and lower amounts in summer and fall (3-5 inches per month). Average annual streamflow is 32 cfs (USGS Streamflow Gauge No. 07261090) with peak flows of more than 16,500 cfs, although zero flow periods can also extend for months (Santeford and Martin 1980). These hydrographic patterns are consistent with the intermittent flashy and intermittent runoff flow regimes characteristic of regional rivers (Leasure et al. 2016). Historically, the Arkansas Valley Hills ecoregion (EPA Level IV, Woods et al. 2004) would have included oak-hickory forest or oak-hickory-pine forest, and significant portions of the watershed remain as second- or third-growth deciduous forest, although evergreen forest and pasture are now common land uses as well (Hart 2014). Based on the 2020 census, population density is relatively low in the watershed with 36.5 residents per mi^2^ (96 residents per mi^2^ nationwide), and residents experience higher rates of poverty and unemployment than state averages (EJScreen 2025). 
 
-Watershed land use reflects the long history of development as well as the low population density (Figure 1). Based on the 2021 National Land Cover Database, the major land use remains forest (45%), although forest types now include deciduous, evergreen, mixed, and shrub/scrub systems. The second most common land use is pasture (42%) with predominant agricultural effects stemming from confined animal feeding operations like poultry houses. Urban land uses are isolated (7%), and residents rely primarily on septic tanks for wastewater management. Road networks are also limited, although a significant extent of unpaved roads may be important sediment sources (**XXX**, personal communication). Oil extraction using hydraulic fracturing (i.e., “fracking”) has increased across the entire Arkansas River Valley ecoregion (Baker et al. 2018), including the Cypress Valley watershed (Hart 2014), with potential impacts of these activities on water availability (Davis 2012) and stream biota (Johnson et al. 2015). Notably, riparian areas in the watershed remain relatively intact with 62% of area within 100-ft of streams in forested land uses. 
+Watershed land use reflects the long history of development as well as the low population density (Figure 1). Based on the 2021 National Land Cover Database, the major land use remains forest (45%), although forest types now include deciduous, evergreen, mixed, and shrub/scrub systems. The second most common land use is pasture (42%) with predominant agricultural effects stemming from confined animal feeding operations like poultry houses. Urban land uses are isolated (7%), and residents rely primarily on septic tanks for wastewater management. Road networks are also limited, although a significant extent of unpaved roads may be important sediment sources. Oil extraction using hydraulic fracturing (i.e., “fracking”) has increased across the entire Arkansas River Valley ecoregion (Baker et al. 2018), including the Cypress Valley watershed (Hart 2014), with potential impacts of these activities on water availability (Davis 2012) and stream biota (Johnson et al. 2015). Notably, riparian areas in the watershed remain relatively intact with 62% of area within 100-ft of streams in forested land uses. 
 
 ```{r fig.cap="Figure 1. Brewer Lake watershed land use and potential sources of water quality degradation (i.e., septic systems, poultry houses, and hydraulic fracturing extraction sites)"}
 #Insert a figure summarizing Brewer Lake land use and management challenges
@@ -89,8 +89,6 @@ knitr::include_graphics("01_BrewerLakeWatershedMap.png")
 Brewer Lake was completed in 1983 through a partnership between the U.S. Army Corps of Engineers and the Conway Corporation, based on authorization from the Water Resources Development Act of 1974 (PL93-251, Title 1, Sec. 10). The primary purpose of the 28,500 acre-foot reservoir is water supply for over 70,000 residents in the city of Conway as well as nearby counties, although the lake is also used for fishing and recreation. Water quality changes can occur with land use change, and sediment, nitrogen, and phosphorous inputs to the lake are a particular focus for reservoir managers because of both drinking water requirements as well as secondary outcomes like harmful algal blooms and reduced reservoir life span (Mark Ferguson, Conway Corporation, personal observation). In the fall of 2020, a cyanobacterial bloom was observed intermittently, indicating a broader potential for water quality threats to this important drinking water source (Matthew Schroeder, Arkansas Game and Fish Commission, personal observation).
 
 ## *2.2. Watershed Planning Process*
-
-(**Looking for Michael and Julianna's help here**).  
 
 This study was conducted under a partnership between the U.S. Army Corps of Engineers and the Conway Corporation to develop a long-term vision for the watershed, identify preliminary management actions, and align opportunities with potential funding sources (e.g., USEPA's 319 program, USDA's Conservation Reserve Program, state grants). The study was conducted under an 18 month timeline with oversight from these entities as well as a technical advisory body with representatives from other federal and state agencies. While broader watershed goals were considered, the primary motivations center on the missions of these entities. 
 
@@ -125,13 +123,11 @@ knitr::kable(Table01, caption="Table 1. Objectives, indicators, and targets for 
 
 ## *2.3. Exploratory Assessment of Feasible Targets*
 
-(**Looking for Maya's help here.**)  
-
 A numeric target or threshold for each indicator helps judge the relative success of watershed management actions in achieving the objectives. However, numerical targets are challenging to develop without technical information on feasibility in a specific geography. Initial targets were developed qualitatively and then confirmed using simple modeling exercises.
 
 The technical advisory team established the initial numerical targets. The 2020 algal bloom in Brewer Lake was identified as an undesirable outcome by the technical stakeholder advisory group, and a general preference was identified for reducing nitrogen, phosphorous, and sediment loading to the reservoir. Load reductions were judged relative to a baseline of 2009-2023, which represents a recent period in which algal blooms were infrequent, short duration, or low consequence. A 15% reduction in loading was viewed as ambitious but achievable relative to long-term program tracking in other locations with water quality management programs like New York Harbor (HRF 2021) and Chesapeake Bay (Zhang et al. 2023).
 
-These targets were then analyzed using the EPA’s Pollutant Load Estimation Tool (PLET) to estimate removal efficiency of three scenarios of best management practices (BMPs) at the watershed-scale. PLET is a spatially lumped calculator treating the entire watershed as one analytical domain. Land cover serves as the primary driver of removal efficiency in PLET, and the National Land Cover Data Set (NLCD) from 2021 was used to parameterize the model. This model provides a low level of effort for preliminary exploration of feasibility.
+These targets were then analyzed using the EPA’s Pollutant Load Estimation Tool (PLET) to estimate removal efficiency of three scenarios of best management practices (BMPs) at the watershed-scale. PLET is a spatially lumped calculator treating the entire watershed as one analytical domain. Land cover serves as the primary driver of nutrient loading in PLET, and the National Land Cover Data Set (NLCD) from 2021 was used to parameterize the model. This model provides a low level of effort for preliminary exploration of feasibility.
 
 Three sets of BMPs were executed in PLET based on the pasture, river, and combined scenarios. The BMP calculator was configured such that similar practices were used in series, and dissimilar practices were used in parallel. All practices were assumed to be applied in series with either grassed or forested riparian buffers due to the well-described efficacy of buffer zones (Ayala-Torres et al. 2025). Area treated by each practice was calculated by dividing the current pasture area evenly into each set of practices. No BMP calculations were performed for urban areas due to the small extent of these areas in this watershed. The three exploratory scenarios were:  
 
@@ -164,19 +160,44 @@ PLET.colors <- viridis(3)
 
 ## *2.4. Assessing Watershed Condition*
 
-(**Looking for Drew's help here, particularly with adding goodness-of-fit statistics for model calibration.**)  
-
 As described, watershed management goals centered on sediment, nitrogen, and phosphorous. Water quality data were unavailable throughout the watershed at sufficient spatial or temporal resolution to identify sources and understanding the effects of management actions. Therefore, a spatially distributed watershed model was developed to inform watershed planning. When calibrated against historical data, watershed models can help reconstruct historical change in a basin (Yan and Edwards 2013) as well as forecast future conditions such as management (Davis 2012, Hart 2014), land use (McKay et al. 2019), or climate scenarios (Sharif et al. 2007). 
 
-HSPF (Hydrologic Simulation Program – Fortran) (Bicknell et al., 2001) was used to simulate watershed hydrology as well as sediment and nutrient dynamics. The HSPF model is included in the EPA BASINS suite of tools (US EPA, 2025) and is frequently used in watershed studies nationwide (e.g., McKay et al. 2019). Furthermore, prior HSPF models have been used in this watershed to estimate effects of land use change from oil and gas development on water quality outcomes (Hart 2014). **Add a sentence or two here about parameterization, number of catchments, average catchment size, etc.**
+The HSPF (Hydrologic Simulation Program – Fortran) watershed model (Bicknell et al., 2001) was used to simulate watershed hydrology as well as sediment and nutrient dynamics. Prior HSPF models have been used in this watershed to estimate effects of land use change from oil and gas development on water quality outcomes (Hart 2014). For this study, the watershed was delineated to 67 catchments which averaged 126 acres.
 
-The HSPF model was calibrated for the single streamflow monitoring site in the watershed (USGS Gage Number 07261090), based on a period of record from 2009-2023. No water quality data were available at this site, and only hydrologic calibration was possible. The HSPF model successfully reproduced measured flow patterns, including daily hydrographs (**GOF=XX**), monthly averages (**GOF=XX**), cumulative volumes (**GOF=XX**), and flow duration distributions (**GOF=XX**). Model performance metrics met all major calibration targets for storm peaks, storm volumes, seasonal runoff, recession rates, and total flow volume (i.e., **GOF>XX for all metrics**). Models showed greater error rates in low and high flow ranges, but these were deemed acceptable given the study's focus on long-term trends aggregated at decadal scales.
+Hydrologic calibration of the HSPF model was performed using continuous daily streamflow data from the USGS gaging station on Cypress Creek (USGS 07261090). Model parameters governing surface runoff, infiltration, interflow, and groundwater recession were adjusted to reproduce observed flow magnitude, timing, and distribution across low‑, median‑, and high‑flow regimes. Calibration emphasized accurate representation of total water balance, storm response, seasonal variability, and flow duration characteristics, with particular attention to baseflow contributions given the intermittent nature of the stream and greater uncertainty at very low flows. Model performance was evaluated using standard HSPF Expert System metrics (Donigian, 2000), including errors in total volume, high‑ and low‑flow statistics, storm volumes, seasonal runoff, and recession behavior (Table 2). Graphical comparisons of observed and simulated flows, flow duration curves, and cumulative discharge demonstrated good agreement across the calibration period, indicating that the model reliably reproduced dominant hydrologic processes controlling runoff generation and streamflow routing within the watershed.
 
-Following calibration, models were applied to estimate sediment, nitrogen, and phosphorous yield in each of the **XX** catchments. Sediment was simulated over the five year period from 2010-2015 and nutrients were simulated for the 11 years spanning 2013-2024. **Need a statement justifying the different periods of analysis.** Modeled yield was aggregated temporally over the simulation period (6 years and 12 years for sediment and N/P, respectively). While 60 sub-catchments provided greater predictive accuracy in HSPF, this spatial resolution was considered finer scale (**XXX** mi^2^ average size) than needed for management. These sub-catchments were aggregated into 26 larger catchments for prioritization purposes (**XXX** mi^2^ average size), based on slope, soil type, land use, and proximity to Brewer Lake. 
+```{r echo=FALSE}
+#Create empty table
+Table02 <- as.data.frame(matrix(NA, nrow = 7, ncol = 3))
+colnames(Table02) <- c("Criteria", "Calibration Target", "Model Error (%)")
+
+#Specify rows of the table
+Table02[1,] <- c("Total volume", 10, -4.6)
+Table02[2,] <- c("Highest 10% of flows", 15, 6.1)
+Table02[3,] <- c("Highest 25% of flows", 10, -2.8)
+Table02[4,] <- c("Highest 50% of flows", 10, -5.1)
+Table02[5,] <- c("Lowest 50% of flows", 10, 15.0)
+Table02[6,] <- c("Lowest 25% of flows", 15, -12.5)
+Table02[7,] <- c("Low flow recession", 3, 0.0)
+Table02[8,] <- c("Average storm peak", 15, 0.2)
+Table02[9,] <- c("Storm volume", 15, -8.3)
+Table02[10,] <- c("Seasonal volume", 20, -6.6)
+Table02[11,] <- c("Summer volume", 20, -8.8)
+Table02[12,] <- c("Winter volume", 15, 2.2)
+Table02[13,] <- c("Summer storm volume", 15, 1.7)
+
+#Send output table rows into a single matrix
+rownames(Table02) <- NULL
+knitr::kable(Table02, caption="Table 2. HSPF hydrologic model performance metrics.", align="c") 
+```
+
+Suspended sediment, total nitrogen (TN), and total phosphorus (TP) were also calibrated in the HSPF model using long‑term monitoring data collected at the USGS gaging station on Cypress Creek. Water quality samples collected by different agencies used different sampling protocols. Suspended sediment sample analysis used different filter sizes (e.g. 1 micron vs 0.45 micro) and thus one sampling effort did not fully capture the finer particles. Some of the suspended sediment data was screened to ensure that appropriate data was used in model calibration. The total nitrogen and total phosphorus analyses were similar and allowed for a more continuous data set.
+
+Following hydrologic model calibration, models were applied to estimate sediment, total nitrogen, and total phosphorous dynamics for each simulate land use. Nutrient model calibration was conducted in a two-fold approach with land use flux (lb/acre/year) compared against other regional observations from similar land uses and instream concentrations compared with measured values. Suspended sediment was simulated using land‑use‑specific erosion rates and reach‑scale scour and deposition processes, with calibration emphasizing consistency with observed storm and baseflow concentrations and maintenance of dynamic equilibrium in channel sediments. Median suspended sediment concentrations and land‑use‑based fluxes were within published literature ranges, and overall sediment model performance exhibited low bias and acceptable error statistics across flow regimes. Total nitrogen was simulated using a buildup–washoff formulation, with contributions from natural background processes, manure application, and septic systems, and calibration targeted observed concentrations during both baseflow and stormflow conditions. Modeled TN concentrations closely matched observed medians, with small median errors, low RMSE, and percent bias within accepted calibration targets. Total phosphorus was simulated using a combined buildup–washoff and sediment‑associated transport approach, with calibration constrained by observed instream concentrations and literature‑based land‑use export coefficients. Modeled TP concentrations were consistent with observed storm and baseflow medians, exhibited low absolute error, and fell within established performance criteria, indicating that the model reasonably reproduces sediment‑associated and dissolved nutrient transport dynamics at the watershed scale.
+
+Following calibration, models were applied to estimate sediment, nitrogen, and phosphorous yield in each of the 67 catchments. Sediment was simulated over the five year period from 2010-2015 and nutrients were simulated for the 11 years spanning 2013-2024. Modeled yield was aggregated temporally over the simulation period (6 years and 12 years for sediment and N/P, respectively). While 60 sub-catchments provided greater predictive accuracy in HSPF, this spatial resolution was considered finer scale (0.20* mi^2^ average size) than needed for management. These sub-catchments were aggregated into 26 larger catchments for prioritization purposes (1.31 mi^2^ average size), based on slope, soil type, land use, and proximity to Brewer Lake. 
 
 ## *2.5. Prioritization of Catchments*
-
-(**Looking for Maya and Julia's help here.**)  
 
 The extent of BMP application may be significantly reduced, if actions are placed strategically throughout the watershed in locations with the greatest return-on-investment. This section describes two different analyses to identify strategically important catchments for BMP application: (1) catchment ranking and (2) multiple criteria decision analysis (MCDA). The ranking method identified catchments with high pollutant loading and feasibility for management based on separate criteria. Conversely, the MCDA compared each catchment based on a weighted average of multiple criteria summarized in a single score. Each technique provides different insights into the prioritization process, and catchments identified as high reward under different sets of assumptions provide confidence that BMP application in these areas will provide the greatest return-on-investment.
 
@@ -216,7 +237,7 @@ brewer.rank$Feasibility <- apply(cbind(brewer.rank$Affordability, brewer.rank$Bu
 
 Many methods have been developed for comparing disparate metrics using a spectrum of qualitative to quantitative techniques (Linkov et al. 2009). Multi-criteria decision analysis (MCDA) provides a set of methods for normalizing metrics with different units and scales and combining those metrics into a single score for comparing alternatives, which has proven particularly useful for the multi-objective context of watershed planning (Yaryan Hall and Bledsoe 2023).
 
-A form of MCDA was used to prioritize catchments in the Brewer Lake watershed using a weighted-score based on multiple criteria. Five criteria were included in this analysis: flux of sediment, flux of total nitrogen, flux of total phosphorous, proportion of land use in pasture, and distance from the catchment outlet to Brewer Lake. All metrics were converted to a 1 to 5 scale for comparison across different units with 1 and 5 representing less and more preferable outcomes, respectively. Flux scores were computed based on the quantiles of the data from 0-20%, 20-40%, 40-60%, 60-80%, and 80-100% with corresponding scores of 1, 2, 3, 4, and 5, respectively. Land use was assessed based on proportion of pasture in the catchment with thresholds at < 30%, 30-40%, 40-50%, 50-60%, and > 60% for 1 to 5 scores. Distance to the lake was normalized as 0 miles, 0-1 miles, 1-2 miles, 2-3 miles, 3-4 miles, and > 4 miles for scores 5 to 1. Weighting was determined based on pairwise comparison of the relative importance of each criteria, where sediment, nitrogen, phosphorous, land use, and distance were ultimately weighted as 20%, 27%, 33%, 13%, and 7%, respectively. All normalized metrics were combined through a weighted-average to produce an overall score for each catchment on a 1 to 5 scale, where 5 represents the highest priority catchment.
+A form of MCDA was used to prioritize catchments in the Brewer Lake watershed using a weighted-score based on multiple criteria. Five criteria were included in this analysis: flux of sediment, flux of total nitrogen, flux of total phosphorous, proportion of land use in pasture, and distance from the catchment outlet to Brewer Lake. All metrics were converted to a 1 to 5 scale for comparison across different units with 1 and 5 representing less and more preferable outcomes, respectively. Flux scores were computed based on the quantiles of the data from 0-20%, 20-40%, 40-60%, 60-80%, and 80-100% with corresponding scores of 1, 2, 3, 4, and 5, respectively. Land use was assessed based on proportion of pasture in the catchment with thresholds at < 30%, 30-40%, 40-50%, 50-60%, and > 60% for 1 to 5 scores. Travel time was normalized as 0 days, 0-1.8 days, 1.8-2.4 days, 2.4-3.5 days, and >3.5 days for scores 5 to 1. Weighting was determined based on pairwise comparison of the relative importance of each criteria, where sediment, nitrogen, phosphorous, land use, and distance were ultimately weighted as 20%, 27%, 33%, 13%, and 7%, respectively. All normalized metrics were combined through a weighted-average to produce an overall score for each catchment on a 1 to 5 scale, where 5 represents the highest priority catchment.
 
 
 ```{r}
@@ -277,9 +298,7 @@ for(i in 1:ncatch){
 
 ## *2.6. Efficacy of Management Actions in Priority Catchments*
 
-(**Looking for Maya and Julianna's help here.**)  
-
-Catchment prioritization provides a mechanism for identifying a reduced number of locations in the watershed. However, the reduced extent of actions has the potential to make load reduction goals infeasible. This analysis examines whether watershed-wide load reduction goals can be achieved in the smaller footprint of the prioritized catchments. 
+Catchment prioritization provides a mechanism for identifying a reduced number of locations in the watershed where BMPs may be effective. However, the reduced extent of actions has the potential to make load reduction goals infeasible. This analysis examines whether watershed-wide load reduction goals can be achieved in the smaller footprint of the prioritized catchments. 
 
 The HSPF models could potentially be applied to make spatially explicit assumptions about installation of BMPs at specific locations in the watershed. However, this parcel-level resolution would have to assume land owner willingness, which does not align with the goals of identifying general recommendations and could, ultimately, hinder implementation with stakeholders. As an alternative, this analysis focuses on identifying the general level of BMP implementation in the priority catchments that would be needed to achieve goals. 
 
@@ -359,7 +378,7 @@ The watershed plan was developed through a series of analyses aligned with typic
 
 Three BMP scenarios were executed in PLET to understand the potential levels of pollutant removal and verify the feasibility of a 15% load reduction goal. PLET was iteratively applied by increasing the extent of BMP application in pasture lands until 15% load reduction was achieved for sediment, nitrogen, and phosphorous. The three BMP scenarios produced different rates of pollutant removal and required different amounts of pasture area to achieve the 15% pollutant reduction targets (Figure 2). 
 
-Analyses indicate that pasture-oriented practices are more effective for nitrogen removal, whereas river-oriented practices more efficiently remove phosphorous and sediment. Using only pasture management practices, large amounts of pasture land would need to be converted to BMP application (i.e., 62% of existing pasture). River corridor BMPs achieve the load targets with significantly less pasture conversion (i.e., 43% of existing pasture), and combinations of practices further reduced land requirements (i.e., 41% of existing pasture). Notably, these values do not imply taking land out of pasture-oriented uses, but instead application of BMPs in those lands (e.g., cattle fencing, rotational grazing, poultry litter management). While ambitious in the scope and scale of BMP application, PLET results indicate that the nutrient removal targets are feasible, particularly with an emphasis on river corridor management.
+Analyses indicate that pasture-oriented practices are more effective for nitrogen removal, whereas river-oriented practices more efficiently remove phosphorous and sediment. Using only pasture management practices, large amounts of pasture land would need BMP treatment (i.e., 62% of existing pasture). River corridor BMPs achieve the load targets with significantly less pasture conversion (i.e., 43% of existing pasture), and combinations of practices further reduced land requirements (i.e., 41% of existing pasture). Notably, these values do not imply taking land out of pasture-oriented uses, but instead application of BMPs in those lands (e.g., cattle fencing, rotational grazing, poultry litter management). While ambitious in the scope and scale of BMP application, PLET results indicate that the nutrient removal targets are feasible, particularly with an emphasis on river corridor management.
 
 ```{r fig.cap="Figure 2. Pollutant removal rates for three scenarios of BMP application: pasture BMPs, river BMPs, and combined BMPs.)"}
 #Create figure summarizing prioritization based on ranking method
@@ -386,17 +405,15 @@ knitr::include_graphics("02_PLET_Efficiencies.png")
 
 ## *3.2. Where are the sources of sediment, nitrogen, and phosphorous in the watershed?*
 
-(**Looking for Drew's help here, particularly with adding descriptions of outcomes.**)  
+Sediment, total nitrogen, and total phosphorus yields were estimated for each delineated catchment using the calibrated HSPF watershed model. Constituent loading was computed by simulating land‑use‑specific buildup and washoff processes, sediment detachment and transport, and routing through the stream network to account for spatial variability in hydrology and watershed characteristics. Modeled results indicate substantial heterogeneity in sediment and nutrient yields across the watershed, reflecting differences in land cover, soil properties, topography, and the spatial distribution of anthropogenic sources such as agriculture, unpaved roads, and developed areas. Higher yields of suspended sediment and nutrients were generally associated with catchments characterized by greater disturbance and runoff potential, while lower yields occurred in more forested and less developed areas (Figure 3). These results highlight the importance of spatially explicit watershed modeling for identifying areas that disproportionately contribute sediment and nutrient loads and for informing targeted watershed management and mitigation strategies.
 
-Sediment, nitrogen, and phosphorous yield was estimated for each of the 26 catchments using HSPF. Modeled water quality loading shows significant differences across the watershed for each constituent (Figure 3). 
+Modeled sediment yields exhibited substantial spatial variability across the watershed, reflecting differences in land use, soil erodibility, slope, and hydrologic connectivity (Figure 3A). Catchment‑scale sediment yields were relatively low in predominantly forested areas to substantially higher in catchments influenced by pasture land, unpaved roads, and developed areas. Elevated sediment yields tend to cluster in portions of the watershed with steeper slopes and greater surface runoff potential, as well as along stream corridors where channel scour and bank erosion contribute to sediment delivery. In contrast, catchments dominated by forest cover generally exhibit lower sediment yields, indicating greater infiltration capacity and reduced erosive energy. These patterns suggest that sediment loading is driven by both upland land‑use characteristics and in‑stream processes, resulting in discrete sediment source areas that function as watershed‑scale hotspots.
 
-Sediment paragraph - Qualitative description of overarching issues in the watershed. Ranges of yield from the models (Figure 3A). Key observations from the results about hotspots or patterns.  
+Total nitrogen yields showed spatial heterogeneity across the watershed, driven by differences in land use, nutrient sources, and runoff generation. Simulated nitrogen yields range from relatively low values in forested and minimally disturbed catchments to higher yields in areas influenced by pasture, agricultural activity, septic system density, and developed land uses (Figure 3B). Nitrogen hotspots are spatially associated with catchments receiving manure applications or containing higher concentrations of anthropogenic nutrient sources, as well as areas with greater hydrologic connectivity that facilitate nutrient transport during storm events. Lower nitrogen yields occur in headwater catchments dominated by forest cover, where uptake, infiltration, and reduced runoff limit nitrogen export. Overall, the modeled patterns indicate that nitrogen loading is strongly influenced by land management practices and source distribution, rather than being uniformly distributed across the watershed.
 
-Nitrogen paragraph - Qualitative description of overarching issues in the watershed. Ranges of yield from the models (Figure 3B). Key observations from the results about hotspots or patterns.  
+Modeled total phosphorus yields also vary considerably among catchments, reflecting the combined influence of sediment‑associated transport, land disturbance, and nutrient source inputs (Figure 3C). HSPF simulations indicate that phosphorus yields span a broad range, with higher yields occurring in catchments characterized by increased sediment production, agricultural land use, unpaved roads, and other disturbed surfaces. Spatial patterns show that phosphorus hotspots frequently coincide with areas of elevated sediment yield, consistent with the strong association between phosphorus and particulate transport. Catchments with lower slopes and higher forest cover generally exhibit reduced phosphorus yields, suggesting effective attenuation through soil sorption, reduced erosion, and lower runoff volumes. These results highlight the close coupling between sediment dynamics and phosphorus export and underscore the importance of managing erosive sources to reduce phosphorus loading at the watershed scale.
 
-Phosphorous paragraph - Qualitative description of overarching issues in the watershed. Ranges of yield from the models (Figure 3C). Key observations from the results about hotspots or patterns.  
-
-Overall, HSPF modeling provided an important mechanism for identifying sources of sediment, nitrogen, and phosphorous. Collectively,...**Can we say something here about general trends across the constituents? Maybe something about general hotspots on the east side of the basin?**
+Overall, HSPF modeling provided an effective framework for identifying and comparing sources of sediment, total nitrogen, and total phosphorus across the watershed. Collectively, results indicate that while the magnitude and transport mechanisms differ among constituents, common spatial patterns emerge, with elevated yields of sediment and nutrients consistently associated with areas of greater land disturbance, runoff potential, and hydrologic connectivity. Across all three constituents, a subset of catchments contributes disproportionately to overall watershed loading, suggesting the presence of localized source areas rather than uniform export. Notably, higher sediment and nutrient yields tend to co‑occur in portions of the eastern side of the basin, reflecting the combined influence of land use, soils, and topography on runoff and constituent transport. In contrast, more forested and less disturbed areas generally exhibit lower yields across constituents. These consistent spatial trends underscore the value of integrated watershed modeling for identifying multi‑constituent hotspots and supporting targeted management strategies that address sediment and nutrient loading simultaneously.
 
 ```{r fig.cap="Figure 3. HSPF output for pollutant loads. All loads are expressed as median fluxes of daily load estimates over a simulation period. Sediment was simulated over the five year period from 2010-2015, and nutrients were simulated over the 11 years spanning 2013-2024."}
 #Insert a figure summarizing pollutant load estimates from HSPF
@@ -439,16 +456,16 @@ invisible(dev.off())
 knitr::include_graphics("04_Prioritization_Ranking.png")
 ```
 
-The MCDA produced an estimate of the potential for load reduction in each catchment, which can be summarized relative to the individual criteria or the overall weighted score (Table 2). Catchments 1 and 19 show the greatest potential benefit relative to these prioritization criteria. Catchments 9, 10, 13, and 25 also show promise but with slightly lower scores. Based on the MCDA, Catchments 1, 9, 10, 13, 19, and 25 are identified as key opportunities for watershed management actions.
+The MCDA produced an estimate of the potential for load reduction in each catchment, which can be summarized relative to the individual criteria or the overall weighted score (Table 3). Catchments 1 and 19 show the greatest potential benefit relative to these prioritization criteria. Catchments 9, 10, 13, and 25 also show promise but with slightly lower scores. Based on the MCDA, Catchments 1, 9, 10, 13, 19, and 25 are identified as key opportunities for watershed management actions.
 
 ```{r echo=FALSE}
 #Create empty table
-Table02 <- cbind(brewer.pugh[,1:5], round(brewer.pugh$Normalized, 1))
-colnames(Table02) <- c("Sediment", "Nitrogen", "Phosphorous", "Distance to Lake", "Land Use", "Weighted Score")
+Table03 <- cbind(seq(1,26), brewer.pugh[,1:5], round(brewer.pugh$Normalized, 1))
+colnames(Table03) <- c("Catchment Number", "Sediment", "Nitrogen", "Phosphorous", "Distance to Lake", "Land Use", "Weighted Score")
 
 #Send output table rows into a single matrix
-rownames(Table02) <- NULL
-knitr::kable(Table02, caption="Table 2. Summary of MCDA metrics for prioritization.", align="c") 
+rownames(Table03) <- NULL
+knitr::kable(Table03, caption="Table 3. Summary of MCDA metrics for prioritization.", align="c") 
 ```
 
 Eight catchments were identified based on the two different prioritization processes (i.e., 1, 9, 10, 13, 17, 19, 22, and 25). Catchments 1 and 19 were identified by both prioritization methods due to their high pollutant load and may be considered top priorities as “problem areas” in the watershed. Catchments 9, 10, and 13 were also identified by the MCDA as technically important opportunities for managing pollutant loads in the central valley portions of the basin. Catchments 17, 22, and 25 were identified as key sites for BMPs given their proximity to Brewer Lake. 
@@ -560,6 +577,8 @@ Cohen, A. and Davidson, S., 2011. The watershed approach: Challenges, antecedent
 Davis, C.A. 2012. Assessing the impacts of surface water removal for use in natural gas extraction on a watershed level. Master’s Thesis. University of Arkansas.
 
 Dillard M., Brooks C., Fisher H., Pietersen H., Nijhuis A., van Breda A., and Durden S. 2021. Engaging Communities and Stakeholders in Implementing NNBF. Chapter 3 in International Guidelines on Natural and Nature-Based Features for Flood Risk Management. Edited by T. S. Bridges, J. K. King, J. D. Simm, M. W. Beck, G. Collins, Q. Lodder, and R. K. Mohan. Vicksburg, MS: U.S. Army Engineer Research and Development Center.
+
+Donigian, A.S., Jr. (2000). HSPF Training Workshop Handbook and CD. Lecture #19: Calibration and Verification Issues. Prepared for the U.S. Environmental Protection Agency, Office of Water. EPA Headquarters, Washington, DC, January 10–14, 2000.
 
 EJScreen. 2025. Environmental Justice Screening and Mapping Tool (Version 2.3). Public Environmental Data Partners. https://pedp-ejscreen.azurewebsites.net/. Accessed on November 14, 2025.
 
