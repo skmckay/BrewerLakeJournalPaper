@@ -1,7 +1,7 @@
 ---
 title: 'Aligning multiple methods to inform integrated catchment planning in the Brewer Lake Watershed, Arkansas, USA'
 author: "S. Kyle McKay, Julianna Hunter, Julia Ruff, Maya Burns, Drew Ackerman, and Michael Long"
-date: "March 2026"
+date: "June 2026"
 output:
   word_document:
     toc: no
@@ -33,13 +33,20 @@ library(viridis)
 #library(gridExtra)
 ```
 
+
+# **Author Affiliations**
+
+S. Kyle McKay, Woolpert, [kyle.mckay@woolpert.com](kyle.mckay@woolpert.com), Phone: +1 970-980-9747
+Julianna Hunter, Woolpert, [Julianna.Hunter@woolpert.com](Julianna.Hunter@woolpert.com)  
+Julia Ruff, Woolpert, [Julia.Ruff@woolpert.com](Julia.Ruff@woolpert.com)  
+Maya Burns, Woolpert, [Maya.Burns@woolpert.com](Maya.Burns@woolpert.com)  
+Drew Ackerman, Black & Veatch, [ackermanac@bv.com](ackermanac@bv.com)  
+Michael Long, Woolpert, [Michael.Long@woolpert.com](Michael.Long@woolpert.com)
+
+
 # **Author Notes**
 
-This document is a working draft of a journal paper summarizing the Brewer Lake watershed study. A few notes:  
-
-- *Authorship*: The authorship list is simply a first volley based on contributions to the USACE report and journal paper to date. Team members can be added as needed, and we need to discuss the relative order of authors.  
-- *Audience*: Largely focused on applied water science community and practitioners developing watershed management plans. Secondary audience is government entities funding watershed assessments. Probably best reached through an open access journal.  
-- *Proposed Outlet*: [Water](https://www.mdpi.com/journal/water)
+This document is submitted to [Water](https://www.mdpi.com/journal/water) for the article publication type. All authors have approved the content of the submitted manuscript. The manuscript is not under consideration for any other publication outlets.
 
 
 # **Abstract**
@@ -195,7 +202,7 @@ Suspended sediment, total nitrogen (TN), and total phosphorus (TP) were also cal
 
 Following hydrologic model calibration, models were applied to estimate sediment, total nitrogen, and total phosphorous dynamics for each simulate land use. Nutrient model calibration was conducted in a two-fold approach with land use flux (lb/acre/year) compared against other regional observations from similar land uses and instream concentrations compared with measured values. Suspended sediment was simulated using land‑use‑specific erosion rates and reach‑scale scour and deposition processes, with calibration emphasizing consistency with observed storm and baseflow concentrations and maintenance of dynamic equilibrium in channel sediments. Median suspended sediment concentrations and land‑use‑based fluxes were within published literature ranges, and overall sediment model performance exhibited low bias and acceptable error statistics across flow regimes. Total nitrogen was simulated using a buildup–washoff formulation, with contributions from natural background processes, manure application, and septic systems, and calibration targeted observed concentrations during both baseflow and stormflow conditions. Modeled TN concentrations closely matched observed medians, with small median errors, low RMSE, and percent bias within accepted calibration targets. Total phosphorus was simulated using a combined buildup–washoff and sediment‑associated transport approach, with calibration constrained by observed instream concentrations and literature‑based land‑use export coefficients. Modeled TP concentrations were consistent with observed storm and baseflow medians, exhibited low absolute error, and fell within established performance criteria, indicating that the model reasonably reproduces sediment‑associated and dissolved nutrient transport dynamics at the watershed scale.
 
-Following calibration, models were applied to estimate sediment, nitrogen, and phosphorous yield in each of the 67 catchments. Sediment was simulated over the five year period from 2010-2015 and nutrients were simulated for the 11 years spanning 2013-2024. Modeled yield was aggregated temporally over the simulation period (6 years and 12 years for sediment and N/P, respectively). While 60 sub-catchments provided greater predictive accuracy in HSPF, this spatial resolution was considered finer scale (0.20* mi^2^ average size) than needed for management. These sub-catchments were aggregated into 26 larger catchments for prioritization purposes (1.31 mi^2^ average size), based on slope, soil type, land use, and proximity to Brewer Lake. 
+Following calibration, models were applied to estimate sediment, nitrogen, and phosphorous yield in each of the 67 catchments. Sediment was simulated over the five year period from 2010-2015 and nutrients were simulated for the 11 years spanning 2013-2024. Modeled yield was aggregated temporally over the simulation period (6 years and 12 years for sediment and N/P, respectively). While 60 sub-catchments provided greater predictive accuracy in HSPF, this spatial resolution was considered finer scale (0.20 mi^2^ average size) than needed for management. These sub-catchments were aggregated into 26 larger catchments for prioritization purposes (1.31 mi^2^ average size), based on slope, soil type, land use, and proximity to Brewer Lake. 
 
 ## *2.5. Prioritization of Catchments*
 
@@ -556,7 +563,7 @@ Ultimately, the Brewer Lake watershed study merged existing watershed planning a
 
 # **Acknowledgements**
 
-This project was supported by the Tulsa District of the U.S. Army Corps of Engineers (USACE) and the Conway Corporation, under the direction of Sarah Austin, USACE’s Project Manager. Other agencies and organizations advised on the development of the watershed management plan, including the US Department of Agriculture, Conway County Regional Water Distribution District, and the Arkansas Department of Agriculture. Additionally, watershed residents and stakeholders provided input through a series of public meetings, and their input is gratefully acknowledged. This paper presents parts of the overall watershed study, and the results do not necessarily represent the outcomes of the USACE project planning process, which are available from the [USACE Tulsa District](https://www.swt.usace.army.mil/). The opinions expressed here are those of the authors and not necessarily those of the USACE, Conway Corporation, Woolpert, or Black & Veatch. 
+This project was performed for the Tulsa District of the U.S. Army Corps of Engineers (USACE) and the Conway Corporation. Other agencies and organizations advised on the development of the watershed management plan, including the US Department of Agriculture, Conway County Regional Water Distribution District, and the Arkansas Department of Agriculture. Additionally, watershed residents and stakeholders provided input through a series of public meetings, and their input is gratefully acknowledged. This paper presents parts of the overall watershed study, and the results do not necessarily represent the outcomes of the USACE project planning process, which are available from the [USACE Tulsa District](https://www.swt.usace.army.mil/). The opinions expressed here are those of the authors and not necessarily those of the USACE, Conway Corporation, Woolpert, or Black & Veatch. 
 
 
 # **Author Contributions**
